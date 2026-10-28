@@ -2,23 +2,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ASH GAMING</title>
-  <style>
-    body {
-      background: #101018;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 70px 15px;
-    }
-    h1 { color: #00e5ff; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASH GAMING | PS4 Game Hub</title>
+<meta name="description" content="Explore popular PS4 games, storage sizes, categories and game guides at ASH GAMING.">
+<style>
+:root {
+  --bg:#090b10;
+  --panel:#131722;
+  --panel2:#1b2130;
+  --text:#f4f7ff;
+  --muted:#9ca8bc;
+  --cyan:#00e5ff;
+  --purple:#9b5cff;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+header {
+  padding:22px 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  border-bottom:1px solid #252b3a;
+  background:#0b0d14;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+.logo {font-size:23px;font-weight:900;letter-spacing:1px}
+.logo span {color:var(--cyan)}
+header a {color:white;text-decoration:none}
+.hero {
+  padding:65px 6% 50px;
+  background:radial-gradient(ellipse at 85% 15%,#342060 0%,transparent 42%),
+             radial-gradient(ellipse at 15% 100%,#073a4a 0%,transparent 45%),
+             #0d1019;
+}
+.tag {
+  color:var(--cyan);
+  font-size:12px;
+  letter-spacing:3px;
+  font-weight:bold;
+}
+h1 {font-size:clamp(36px,7vw,66px);margin:15px 0;line-height:1.06}
+h1 span {color:var(--cyan)}
+.hero p {color:var(--muted);line-height:1.7;max-width:540px}
+.search-wrap {max-width:650px;margin-top:28px}
+input,select {
+  background:var(--panel);
+  border:1px solid #343c4f;
+  color:white;
+  padding:14px;
+  border-radius:10px;
+  font-size:15px;
+  width:100%;
+  outline:none;
+}
+input:focus,select:focus {border-color:var(--cyan)}
+main {padding:32px 6% 55px}
+.section-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:20px;
+}
+h2 {font-size:25px;margin:0}
+.count {color:var(--muted);font-size:13px}
+.filters {display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.filter {
+  width:auto;
+  padding:9px 15px;
+  border-radius:30px;
+  background:var(--panel);
+  border:1px solid #303849;
+  color:#d7dfef;
+  cursor:pointer;
+}
+.filter.active,.filter:hover {
+  background:var(--cyan);
+  color:#071016;
+  border-color:var(--cyan);
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  gap:17px;
+}
+.card {
+  background:var(--panel);
+  border:1px solid #262d3d;
+  border-radius:15px;
+  overflow:hidden;
+  transition:transform .2s,border-color .2s;
+}
+.card:hover {transform:translateY(-4px);border-color:var(--cyan)}
+.art {
+  min-height:145px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:8px;
+  text-align:center;
+  padding:18px;
+  background:linear-gradient(135deg,var(--c1),var(--c2));
+}
+.art .emoji {font-size:43px;filter:drop-shadow(0 5px 8px #0006)}
+.art small {font-size:10px;letter-spacing:3px;font-weight:bold}
+.details {padding:16px}
+.details h3 {font-size:17px;margin:0 0 9px}
+.meta {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:15px;
+}
+.pill {
+  background:#252d3c;
+  border-radius:6px;
+  padding:5px 8px;
+  color:#dce7f8;
+}
+.store {
+  display:block;
+  text-align:center;
+  padding:11px;
+  border-radius:8px;
+  background:#182d39;
+  color:var(--cyan);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:bold;
+}
+.store:hover {background:var(--cyan);color:#061016}
+.empty {display:none;color:var(--muted);padding:35px 0}
+.info {
+  margin-top:45px;
+  padding:24px;
+  background:linear-gradient(120deg,#141a29,#10131d);
+  border:1px solid #292f40;
+  border-radius:15px;
+  line-height:1.7;
+}
+.info p {color:var(--muted)}
+footer {
+  padding:25px 6%;
+  border-top:1px solid #252b3a;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  text-align:center;
+}
+footer strong {color:var(--cyan)}
+@media(max-width:500px) {
+  header {padding:17px 5%}
+  .logo {font-size:19px}
+  .hero {padding:48px 5% 38px}
+  main {padding:28px 5% 45px}
+  .grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .art {min-height:115px;padding:12px}
+  .art .emoji {font-size:34px}
+  .details {padding:11px}
+  .details h3 {font-size:14px;line-height:1.35}
+  .meta {font-size:11px;flex-wrap:wrap}
+  .store {font-size:11px;padding:10px 5px}
+}
+</style>
 </head>
 <body>
-  <h1>ASH GAMING 🎮</h1>
-  <p>Welcome to my PS4 gaming website!</p>
-  <p>Website is working successfully.</p>
+
+<header>
+  <a class="logo" href="#">ASH <span>GAMING</span></a>
+  <a href="#games">EXPLORE GAMES ↘</a>
+</header>
+
+<section class="hero">
+  <div class="tag">YOUR GAMING ZONE / PS4</div>
+  <h1>PLAY BIG.<br><span>GAME ON.</span></h1>
+  <p>Discover legendary PlayStation games, explore genres and check approximate storage requirements — all in one place.</p>
+  <div class="search-wrap">
+    <input id="search" type="search" placeholder="🔎  Search games..." aria-label="Search games">
+  </div>
+</section>
+
+<main id="games">
+  <div class="section-head">
+    <h2>Explore the library</h2>
+    <span class="count" id="count">17 games</span>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="filter active" data-category="All">All Games</button>
+    <button class="filter" data-category="Story">Story</button>
+    <button class="filter" data-category="Action">Action</button>
+    <button class="filter" data-category="Fighting">Fighting</button>
+    <button class="filter" data-category="Sports">Sports</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty">No games found. Try another search.</p>
+
+  <section class="info">
+    <h2>🎮 Welcome to ASH GAMING</h2>
+    <p>Find your next favourite PS4 game, browse by genre and check its estimated storage size before installing.</p>
+    <p><strong>Storage tip:</strong> Game sizes vary by region, updates and installed content. Leave extra free space on your drive.</p>
+    <p><strong>Game guides:</strong> Use the official store links to find game information. For walkthroughs, search the game title plus “walkthrough”.</p>
+  </section>
+</main>
+
+<footer>
+  <strong>ASH GAMING</strong> — Made for gamers 🎮
+  <br>Independent fan website. Not affiliated with Sony or PlayStation.
+  <br>Game names and trademarks belong to their respective owners.
+  <br>Storage sizes are estimates, not guaranteed download sizes.
+</footer>
+
+<script>
+const games = [
+  {name:"The Last of Us Part II",size:"100 GB",cat:"Story",emoji:"🧟",a:"#49212c",b:"#151b24",search:"last of us tlou"},
+  {name:"God of War",size:"45 GB",cat:"Action",emoji:"⚔️",a:"#573b28",b:"#182d40",search:"kratos"},
+  {name:"Ghost of Tsushima",size:"50 GB",cat:"Story",emoji:"🥷",a:"#8b412d",b:"#242440",search:"samurai ghost"},
+  {name:"Marvel's Spider-Man",size:"45 GB",cat:"Action",emoji:"🕷️",a:"#81212d",b:"#202e56",search:"spiderman marvel"},
+  {name:"Red Dead Redemption 2",size:"100 GB",cat:"Story",emoji:"🤠",a:"#7a3c27",b:"#191919",search:"rdr2 red dead"},
+  {name:"Uncharted 4",size:"50 GB",cat:"Story",emoji:"🧭",a:"#2b645f",b:"#17283e",search:"nathan drake"},
+  {name:"Horizon Zero Dawn",size:"50 GB",cat:"Action",emoji:"🏹",a:"#356b75",b:"#30264c",search:"horizon aloy"},
+  {name:"GTA V",size:"90 GB",cat:"Action",emoji:"🚘",a:"#326c45",b:"#202638",search:"gta grand theft auto"},
+  {name:"EA Sports FC 25",size:"50 GB",cat:"Sports",emoji:"⚽",a:"#126849",b:"#183047",search:"fc25 football soccer"},
+  {name:"FIFA 17",size:"35 GB",cat:"Sports",emoji:"⚽",a:"#184c3c",b:"#253449",search:"fifa 17"},
+  {name:"WWE 2K24",size:"90 GB",cat:"Sports",emoji:"🤼",a:"#7a2435",b:"#272334",search:"wwe wrestling"},
+  {name:"Tekken 7",size:"45 GB",cat:"Fighting",emoji:"👊",a:"#754020",b:"#22213b",search:"tekken kazuya jin"},
+  {name:"UFC 4",size:"25 GB",cat:"Fighting",emoji:"🥊",a:"#a33c26",b:"#20202c",search:"ufc mma"},
+  {name:"Mortal Kombat 11",size:"50 GB",cat:"Fighting",emoji:"🐉",a:"#725120",b:"#22202e",search:"mk11 mortal kombat"},
+  {name:"Shadow of the Tomb Raider",size:"40 GB",cat:"Action",emoji:"🏹",a:"#4c6242",b:"#22263a",search:"lara croft tomb raider"},
+  {name:"Days Gone",size:"45 GB",cat:"Story",emoji:"🏍️",a:"#5d4a3c",b:"#22212b",search:"zombie biker"},
+  {name:"Ratchet & Clank",size:"30 GB",cat:"Action",emoji:"🚀",a:"#3a65a0",b:"#4b2c72",search:"ratchet clank"}
+];
+
+let category = "All";
+const grid = document.getElementById("grid");
+const search = document.getElementById("search");
+const count = document.getElementById("count");
+const empty = document.getElementById("empty");
+
+function render() {
+  const term = search.value.toLowerCase().trim();
+  const visible = games.filter(g =>
+    (category === "All" || g.cat === category) &&
+    (g.name.toLowerCase().includes(term) || g.search.includes(term))
+  );
+
+  count.textContent = visible.length + (visible.length === 1 ? " game" : " games");
+  empty.style.display = visible.length ? "none" : "block";
+
+  grid.innerHTML = visible.map(g => `
+    <article class="card">
+      <div class="art" style="--c1:${g.a};--c2:${g.b}">
+        <span class="emoji">${g.emoji}</span>
+        <small>ASH GAMING • PS4</small>
+      </div>
+      <div class="details">
+        <h3>${g.name}</h3>
+        <div class="meta">
+          <span class="pill">${g.cat}</span>
+          <span>💾 ~${g.size}</span>
+        </div>
+        <a class="store" href="https://store.playstation.com/en-in/search/${encodeURIComponent(g.name)}" target="_blank" rel="noopener noreferrer">FIND GAME ↗</a>
+      </div>
+    </article>
+  `).join("");
+}
+
+search.addEventListener("input", render);
+document.querySelectorAll(".filter").forEach(button => {
+  button.addEventListener("click", () => {
+    category = button.dataset.category;
+    document.querySelectorAll(".filter").forEach(b => b.classList.toggle("active", b === button));
+    render();
+  });
+});
+render();
+</script>
 </body>
 </html>
