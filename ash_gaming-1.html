@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b12">
+<title>ASH GAMING | The PS4 Game Hub</title>
+<style>
+:root{--bg:#090b12;--panel:#121622;--panel2:#171d2c;--text:#f4f6fb;--muted:#9aa4b8;--accent:#8b5cf6;--accent2:#22d3ee;--line:#252c3d}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#27204c 0,transparent 38%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+a{color:inherit;text-decoration:none}button,input,select{font:inherit}.wrap{width:min(1160px,92%);margin:auto}
+header{position:sticky;top:0;z-index:10;background:#090b12eF;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font-size:1.3rem;font-weight:950;letter-spacing:1.5px}.brand span{color:var(--accent2)}.navlinks{display:flex;gap:22px;color:var(--muted);font-size:.92rem}.navlinks a:hover{color:white}.menu{display:none;background:transparent;color:white;border:1px solid var(--line);padding:8px 10px;border-radius:10px}
+.hero{padding:62px 0 38px;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:34px;min-height:390px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#c4b5fd;background:#8b5cf61a;border:1px solid #8b5cf644;padding:7px 11px;border-radius:999px;font-size:.78rem;font-weight:750;letter-spacing:.7px;text-transform:uppercase}.dot{width:7px;height:7px;background:var(--accent2);border-radius:50%;box-shadow:0 0 12px var(--accent2)}h1{font-size:clamp(2.7rem,6vw,5rem);line-height:.98;margin:20px 0 16px;letter-spacing:-2px}.gradient{background:linear-gradient(90deg,#a78bfa,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{color:var(--muted);font-size:1.05rem;line-height:1.7;max-width:580px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.btn{border:0;cursor:pointer;border-radius:12px;padding:12px 17px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px}.primary{background:linear-gradient(100deg,var(--accent),#6366f1);color:white;box-shadow:0 8px 28px #7c3aed30}.secondary{background:var(--panel2);border:1px solid var(--line);color:white}.hero-art{position:relative;min-height:270px;border-radius:24px;overflow:hidden;border:1px solid #8b5cf655;background:linear-gradient(140deg,#25134d,#111827 60%,#064e5a);display:flex;align-items:center;justify-content:center}.hero-art:before,.hero-art:after{content:"";position:absolute;border-radius:50%;filter:blur(1px)}.hero-art:before{width:230px;height:230px;background:#8b5cf644;right:-40px;top:-50px}.hero-art:after{width:170px;height:170px;background:#22d3ee28;left:-25px;bottom:-60px}.controller{font-size:clamp(6rem,15vw,10rem);filter:drop-shadow(0 12px 22px #0008);transform:rotate(-12deg);z-index:1}.art-label{position:absolute;bottom:18px;left:20px;font-size:.75rem;letter-spacing:2px;color:#d7e1f5;z-index:2}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:12px 0 45px}.stat{background:#121622b8;border:1px solid var(--line);border-radius:16px;padding:17px 20px}.stat strong{font-size:1.45rem;display:block}.stat span{font-size:.85rem;color:var(--muted)}
+section{padding:24px 0 38px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:20px}.section-head h2{font-size:1.7rem;margin:0 0 7px}.section-head p{color:var(--muted);margin:0;font-size:.92rem}.searchbar{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.searchbar input,.searchbar select{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:12px 14px;border-radius:12px;outline:none}.searchbar input{flex:1;min-width:190px}.searchbar input:focus,.searchbar select:focus{border-color:var(--accent)}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.chip{padding:8px 12px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--muted);cursor:pointer}.chip.active,.chip:hover{background:#8b5cf622;border-color:#8b5cf6;color:#e9ddff}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:linear-gradient(180deg,#171d2b,#10131c);border:1px solid var(--line);border-radius:17px;overflow:hidden;transition:transform .2s,border-color .2s;min-width:0}.card:hover{transform:translateY(-4px);border-color:#6553a6}.cover{height:145px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--c1),var(--c2))}.cover:before{content:"";position:absolute;width:180px;height:180px;border:1px solid #ffffff2b;border-radius:50%;right:-40px;top:-70px}.cover:after{content:"";position:absolute;width:120px;height:120px;border:1px solid #ffffff26;border-radius:50%;left:-20px;bottom:-65px}.cover .emoji{font-size:4rem;filter:drop-shadow(0 8px 12px #0006);z-index:1}.cover .tag{position:absolute;top:10px;left:10px;background:#080b13b8;border:1px solid #ffffff2a;border-radius:7px;padding:5px 7px;font-size:.68rem;font-weight:800;z-index:2}.card-body{padding:14px}.card h3{margin:0 0 7px;font-size:1rem}.meta{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:.78rem}.rating{color:#fbbf24}.card p{font-size:.82rem;color:var(--muted);line-height:1.5;min-height:38px;margin:10px 0}.card-actions{display:flex;gap:8px}.smallbtn{flex:1;padding:9px 8px;border-radius:9px;background:#20263a;border:1px solid #303950;color:#f4f6fb;font-size:.78rem;font-weight:750;cursor:pointer}.smallbtn:hover{border-color:var(--accent2)}.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:36px;background:var(--panel);border-radius:14px}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.info-card{background:var(--panel);border:1px solid var(--line);padding:20px;border-radius:16px}.info-card .icon{font-size:1.7rem}.info-card h3{margin:12px 0 7px}.info-card p{color:var(--muted);font-size:.9rem;line-height:1.6;margin:0}
+.notice{margin:18px 0 0;padding:14px 16px;border:1px solid #eab3084d;background:#eab3080d;color:#d7dbea;border-radius:12px;font-size:.83rem;line-height:1.6}
+footer{border-top:1px solid var(--line);padding:28px 0 38px;color:var(--muted);font-size:.85rem}.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}.foot strong{color:white}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:30;padding:20px;align-items:center;justify-content:center}.modal.open{display:flex}.modal-box{width:min(520px,100%);background:#131827;border:1px solid #3b4260;border-radius:20px;padding:24px;max-height:85vh;overflow:auto}.modal-top{display:flex;justify-content:space-between;gap:10px}.modal-top h2{margin:0}.close{background:transparent;color:white;border:1px solid var(--line);border-radius:9px;padding:5px 10px;cursor:pointer}.modal-box p{color:var(--muted);line-height:1.65}.modal-box a{color:#67e8f9;text-decoration:underline}
+@media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:42px}.hero-art{min-height:210px}.grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}.menu{display:block}.navlinks.show{display:flex;position:absolute;top:71px;left:0;right:0;padding:18px 4%;background:#090b12;flex-direction:column;border-bottom:1px solid var(--line)}.info-grid{grid-template-columns:1fr}.stats{margin-bottom:25px}}
+@media(max-width:440px){.grid{gap:10px}.cover{height:118px}.cover .emoji{font-size:3.2rem}.card-body{padding:11px}.card p{font-size:.78rem}.stat{padding:13px}.stat strong{font-size:1.2rem}.section-head{align-items:start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+<a class="brand" href="#home">ASH <span>GAMING</span></a>
+<nav class="navlinks" id="navlinks"><a href="#games">Games</a><a href="#categories">Categories</a><a href="#guides">Guides</a><a href="#about">About</a></nav>
+<button class="menu" id="menuBtn" aria-label="Open menu">☰</button>
+</div></header>
+<main>
+<div class="wrap">
+<section class="hero" id="home">
+<div><div class="eyebrow"><span class="dot"></span> Your PS4 gaming hub</div>
+<h1>LEVEL UP WITH<br><span class="gradient">ASH GAMING.</span></h1>
+<p>Discover great PS4 games, explore genres, check approximate storage sizes, and find official places to buy your next favourite game.</p>
+<div class="actions"><a class="btn primary" href="#games">🎮 Explore games <span>↘</span></a><a class="btn secondary" href="#guides">🧰 Gaming guides</a></div>
+</div>
+<div class="hero-art" aria-label="Gaming controller illustration"><div class="controller">🎮</div><div class="art-label">PLAY • DISCOVER • REPEAT</div></div>
+</section>
+<div class="stats"><div class="stat"><strong>PS4</strong><span>Console-focused library</span></div><div class="stat"><strong>All genres</strong><span>Action, sports, story & more</span></div><div class="stat"><strong>Free to explore</strong><span>No account needed</span></div></div>
+
+<section id="games">
+<div class="section-head"><div><h2>Explore the game library</h2><p>Search or filter the starter collection. Game sizes are estimates and can vary by update and edition.</p></div></div>
+<div class="searchbar"><input id="searchInput" type="search" placeholder="Search games, genres, or keywords…" aria-label="Search games"><select id="sortSelect" aria-label="Sort games"><option value="featured">Sort: Featured</option><option value="az">Name: A–Z</option><option value="size">Size: smallest first</option></select></div>
+<div class="filters" id="filters"><button class="chip active" data-category="All">All games</button><button class="chip" data-category="Story">Story & action</button><button class="chip" data-category="Open World">Open world</button><button class="chip" data-category="Sports">Sports</button><button class="chip" data-category="Fighting">Fighting</button><button class="chip" data-category="Adventure">Adventure</button></div>
+<div class="grid" id="gameGrid" aria-live="polite"></div>
+</section>
+
+<section id="categories">
+<div class="section-head"><div><h2>Pick your play style</h2><p>Jump into the kind of game you're in the mood for.</p></div></div>
+<div class="info-grid">
+<div class="info-card"><div class="icon">🧟</div><h3>Story & action</h3><p>Character-driven adventures, cinematic missions, survival, and memorable single-player campaigns.</p></div>
+<div class="info-card"><div class="icon">⚽</div><h3>Sports & racing</h3><p>Football, wrestling, combat sports, racing, and local multiplayer fun.</p></div>
+<div class="info-card"><div class="icon">🥷</div><h3>Open world & fighting</h3><p>Explore huge worlds, master combos, and discover challenging combat systems.</p></div>
+</div>
+</section>
+
+<section id="guides">
+<div class="section-head"><div><h2>Gaming guides & helpful links</h2><p>Useful starting points for PS4 players.</p></div></div>
+<div class="info-grid">
+<div class="info-card"><div class="icon">🛒</div><h3>Buy games safely</h3><p>Check the official PlayStation Store for digital editions and availability in your region.</p><p style="margin-top:12px"><a href="https://store.playstation.com/" target="_blank" rel="noopener noreferrer">Visit PlayStation Store ↗</a></p></div>
+<div class="info-card"><div class="icon">🧰</div><h3>PS4 help & support</h3><p>For console troubleshooting, system software help, and account safety, start with official support.</p><p style="margin-top:12px"><a href="https://www.playstation.com/support/" target="_blank" rel="noopener noreferrer">PlayStation Support ↗</a></p></div>
+<div class="info-card"><div class="icon">🔒</div><h3>Mods & homebrew basics</h3><p>Learn about firmware compatibility, backups, and risks before changing console software. Avoid unknown files and never share account credentials.</p><p style="margin-top:12px"><button class="smallbtn" id="modInfoBtn">Read safety notes</button></p></div>
+</div>
+<div class="notice"><strong>Note:</strong> ASH GAMING is an independent fan project and is not affiliated with Sony or PlayStation. Game names and trademarks belong to their respective owners. Jailbreaking can affect security, online access, warranty/service options, and may violate platform terms. Use only content you have the rights to access; this site does not host game files.</div>
+</section>
+
+<section id="about">
+<div class="section-head"><div><h2>About ASH GAMING</h2><p>A clean, gamer-first place to discover what to play next.</p></div></div>
+<div class="info-card"><p style="margin:0;color:var(--muted);line-height:1.8">ASH GAMING is a starter website for PlayStation 4 fans. The collection below is editable, the search works in your browser, and the layout is designed for both mobile phones and laptops. It currently uses stylized cover art rather than official game artwork, so the page loads without needing external image files.</p></div>
+</section>
+</div>
+</main>
+<footer><div class="wrap foot"><div><strong>ASH GAMING</strong> · Play smarter. Find your next game.</div><div>Fan-made gaming guide · © <span id="year"></span> ASH GAMING</div></div></footer>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-box"><div class="modal-top"><h2 id="modalTitle">Game details</h2><button class="close" id="closeModal" aria-label="Close">✕</button></div><div id="modalContent"></div></div></div>
+<script>
+const games=[
+{name:"The Last of Us Part II",cat:"Story",genre:"Survival • Action",size:100,rating:"★★★★★",score:"9.5",emoji:"🧟",colors:["#54253e","#15192c"],desc:"A dark, emotional survival adventure with stealth, exploration, and cinematic storytelling.",buy:"https://store.playstation.com/"},
+{name:"God of War (2018)",cat:"Story",genre:"Action • Adventure",size:45,rating:"★★★★★",score:"9.5",emoji:"🪓",colors:["#6e3425","#1c2634"],desc:"A mythic journey combining intense combat, exploration, and a father-and-son story.",buy:"https://store.playstation.com/"},
+{name:"Ghost of Tsushima",cat:"Open World",genre:"Open world • Action",size:50,rating:"★★★★★",score:"9.4",emoji:"⛩️",colors:["#a34c31","#252b3a"],desc:"Explore a beautiful island, master the way of the samurai, and fight to protect Tsushima.",buy:"https://store.playstation.com/"},
+{name:"Marvel's Spider-Man",cat:"Open World",genre:"Superhero • Action",size:45,rating:"★★★★★",score:"9.0",emoji:"🕷️",colors:["#9d2636","#17284a"],desc:"Swing across New York, fight iconic villains, and experience a superhero adventure.",buy:"https://store.playstation.com/"},
+{name:"Red Dead Redemption 2",cat:"Open World",genre:"Open world • Western",size:105,rating:"★★★★★",score:"9.7",emoji:"🤠",colors:["#9b542b","#241c20"],desc:"An expansive western adventure filled with memorable characters and a living open world.",buy:"https://store.playstation.com/"},
+{name:"Uncharted 4: A Thief's End",cat:"Adventure",genre:"Adventure • Action",size:60,rating:"★★★★★",score:"9.2",emoji:"🧭",colors:["#b47c40","#203b4d"],desc:"A globe-trotting treasure hunt with cinematic set pieces, puzzles, and exploration.",buy:"https://store.playstation.com/"},
+{name:"Horizon Zero Dawn",cat:"Open World",genre:"Action RPG • Open world",size:50,rating:"★★★★★",score:"8.9",emoji:"🏹",colors:["#b56a36","#23464d"],desc:"Hunt enormous machine creatures in a striking post-apocalyptic world.",buy:"https://store.playstation.com/"},
+{name:"GTA V",cat:"Open World",genre:"Open world • Crime",size:90,rating:"★★★★★",score:"9.0",emoji:"🚘",colors:["#3f7a4d","#182c2c"],desc:"Explore Los Santos through a sprawling crime story and a huge open world.",buy:"https://store.playstation.com/"},
+{name:"EA SPORTS FC 25",cat:"Sports",genre:"Football • Sports",size:50,rating:"★★★★☆",score:"8.0",emoji:"⚽",colors:["#167b63","#152b3d"],desc:"Build your squad and play football matches across a range of game modes.",buy:"https://store.playstation.com/"},
+{name:"FIFA 17",cat:"Sports",genre:"Football • Sports",size:40,rating:"★★★★☆",score:"8.2",emoji:"🥅",colors:["#2c895e","#192f35"],desc:"A classic PS4 football title featuring The Journey story mode and traditional match play.",buy:"https://store.playstation.com/"},
+{name:"WWE 2K24",cat:"Sports",genre:"Wrestling • Sports",size:60,rating:"★★★★☆",score:"8.1",emoji:"🤼",colors:["#a52b3c","#251b2f"],desc:"Step into the ring with wrestling matches, creation tools, and showcase content.",buy:"https://store.playstation.com/"},
+{name:"Tekken 7",cat:"Fighting",genre:"Fighting • Arcade",size:50,rating:"★★★★☆",score:"8.4",emoji:"🥊",colors:["#a04c28","#27213d"],desc:"A competitive 3D fighter with a deep roster, combos, and dramatic rivalries.",buy:"https://store.playstation.com/"},
+{name:"UFC 4",cat:"Fighting",genre:"MMA • Fighting",size:30,rating:"★★★★☆",score:"7.8",emoji:"🥋",colors:["#8c2735","#18273b"],desc:"Fight in the octagon with striking, grappling, and career progression.",buy:"https://store.playstation.com/"},
+{name:"Mortal Kombat 11",cat:"Fighting",genre:"Fighting • Action",size:45,rating:"★★★★☆",score:"8.3",emoji:"🐉",colors:["#9a6a28","#25202a"],desc:"A feature-rich fighting game with cinematic story battles and varied combat styles.",buy:"https://store.playstation.com/"},
+{name:"Shadow of the Tomb Raider",cat:"Adventure",genre:"Adventure • Action",size:35,rating:"★★★★☆",score:"8.0",emoji:"🗿",colors:["#2b7773","#1d2739"],desc:"Solve ancient puzzles, explore tombs, and survive a dangerous jungle adventure.",buy:"https://store.playstation.com/"},
+{name:"Days Gone",cat:"Open World",genre:"Survival • Action",size:45,rating:"★★★★☆",score:"8.0",emoji:"🏍️",colors:["#76533d","#17212d"],desc:"Ride through a hostile open world in a survival story about a drifter and his bike.",buy:"https://store.playstation.com/"},
+{name:"Ratchet & Clank",cat:"Adventure",genre:"Platformer • Action",size:30,rating:"★★★★☆",score:"8.4",emoji:"🚀",colors:["#2e75a8","#42234e"],desc:"A colourful sci-fi adventure packed with creative weapons, platforming, and humour.",buy:"https://store.playstation.com/"}
+];
+let category="All";
+const grid=document.getElementById("gameGrid"),search=document.getElementById("searchInput"),sort=document.getElementById("sortSelect");
+function render(){
+ let q=search.value.toLowerCase().trim();
+ let list=games.filter(g=>(category==="All"||g.cat===category)&&[g.name,g.cat,g.genre,g.desc].join(" ").toLowerCase().includes(q));
+ if(sort.value==="az")list.sort((a,b)=>a.name.localeCompare(b.name));
+ if(sort.value==="size")list.sort((a,b)=>a.size-b.size);
+ grid.innerHTML=list.length?list.map(g=>`<article class="card"><div class="cover" style="--c1:${g.colors[0]};--c2:${g.colors[1]}"><span class="tag">${g.cat}</span><span class="emoji">${g.emoji}</span></div><div class="card-body"><h3>${g.name}</h3><div class="meta"><span>${g.genre}</span><span class="rating">${g.score} ★</span></div><p>${g.desc}</p><div class="card-actions"><button class="smallbtn" data-details="${games.indexOf(g)}">Details</button><a class="smallbtn" style="text-align:center" href="${g.buy}" target="_blank" rel="noopener noreferrer">Buy ↗</a></div></div></article>`).join(""):'<div class="empty">No games found. Try another search or category.</div>';
+}
+document.getElementById("filters").addEventListener("click",e=>{const b=e.target.closest("button[data-category]");if(!b)return;category=b.dataset.category;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));render()});
+search.addEventListener("input",render);sort.addEventListener("change",render);
+const modal=document.getElementById("modal"),modalTitle=document.getElementById("modalTitle"),modalContent=document.getElementById("modalContent");
+grid.addEventListener("click",e=>{const b=e.target.closest("[data-details]");if(!b)return;const g=games[Number(b.dataset.details)];modalTitle.textContent=g.name;modalContent.innerHTML=`<p>${g.desc}</p><p><strong>Genre:</strong> ${g.genre}<br><strong>Category:</strong> ${g.cat}<br><strong>Approximate storage:</strong> ${g.size} GB<br><strong>Community-style rating:</strong> ${g.score}/10</p><p>Storage and ratings are indicative, not official; installed size depends on updates, region, and edition.</p><p><a href="${g.buy}" target="_blank" rel="noopener noreferrer">Check PlayStation Store availability ↗</a></p>`;modal.classList.add("open")});
+function closeModal(){modal.classList.remove("open")}
+document.getElementById("closeModal").addEventListener("click",closeModal);modal.addEventListener("click",e=>{if(e.target===modal)closeModal()});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+document.getElementById("modInfoBtn").addEventListener("click",()=>{modalTitle.textContent="Mods & homebrew: safety notes";modalContent.innerHTML="<p>Before changing PS4 system software, check the exact console model and firmware version from reliable documentation. Compatibility varies, and a wrong file or process can cause data loss or console problems.</p><p>Keep backups of your own saves, avoid unknown downloads, never provide your PSN password to third-party sites, and understand that modified systems may lose access to online services or breach platform terms.</p><p>This website does not provide pirated games, copyrighted game packages, or download links for them.</p><p><a href='https://www.playstation.com/support/' target='_blank' rel='noopener noreferrer'>Official PlayStation Support ↗</a></p>";modal.classList.add("open")});
+document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("navlinks").classList.toggle("show"));
+document.querySelectorAll(".navlinks a").forEach(a=>a.addEventListener("click",()=>document.getElementById("navlinks").classList.remove("show")));
+document.getElementById("year").textContent=new Date().getFullYear();render();
+</script>
+</body></html>
