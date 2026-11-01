@@ -48,15 +48,15 @@ let games=[
 {name:"Uncharted 4",size:"50 GB",cat:"Story",emoji:"🧭",a:"#2b645f",b:"#17283e",img:"https://upload.wikimedia.org/wikipedia/en/1/1a/Uncharted_4_box_artwork.jpg",desc:"Nathan Drake returns for one last globe-trotting adventure."},
 {name:"Horizon Zero Dawn",size:"50 GB",cat:"Action",emoji:"🏹",a:"#356b75",b:"#30264c",img:"https://upload.wikimedia.org/wikipedia/en/9/93/Horizon_Zero_Dawn.jpg",desc:"Explore a machine-filled world as the hunter Aloy."},
 {name:"Grand Theft Auto V",size:"90 GB",cat:"Action",emoji:"🚘",a:"#326c45",b:"#202638",img:"https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png",desc:"Open-world action across Los Santos."},
-{name:"EA Sports FC 25",size:"50 GB",cat:"Sports",emoji:"⚽",a:"#126849",b:"#183047",desc:"Football simulation featuring clubs and national teams."},
-{name:"FIFA 17",size:"35 GB",cat:"Sports",emoji:"⚽",a:"#184c3c",b:"#253449",desc:"Classic EA football gameplay."},
-{name:"WWE 2K24",size:"90 GB",cat:"Sports",emoji:"🤼",a:"#7a2435",b:"#272334",desc:"Wrestling action with a large roster and match types."},
-{name:"Tekken 7",size:"45 GB",cat:"Fighting",emoji:"👊",a:"#754020",b:"#22213b",desc:"The King of Iron Fist fighting tournament."},
-{name:"UFC 4",size:"25 GB",cat:"Fighting",emoji:"🥊",a:"#a33c26",b:"#20202c",desc:"Mixed martial arts combat in the Octagon."},
-{name:"Mortal Kombat 11",size:"50 GB",cat:"Fighting",emoji:"🐉",a:"#725120",b:"#22202e",desc:"A brutal fighting game with cinematic story mode."},
-{name:"Shadow of the Tomb Raider",size:"40 GB",cat:"Action",emoji:"🏹",a:"#4c6242",b:"#22263a",desc:"Lara Croft faces the jungle and ancient mysteries."},
-{name:"Days Gone",size:"45 GB",cat:"Story",emoji:"🏍️",a:"#5d4a3c",b:"#22212b",desc:"Survive a dangerous open world on your motorcycle."},
-{name:"Ratchet & Clank",size:"30 GB",cat:"Action",emoji:"🚀",a:"#3a65a0",b:"#4b2c72",desc:"A colourful intergalactic action-platform adventure."}
+{name:"EA Sports FC 25",size:"50 GB",cat:"Sports",emoji:"⚽",a:"#126849",b:"#183047",img:"https://smarthomesounds.sirv.com/live-magento/catalog/product/e/a/ea-sports-fc-25-ps4.jpg?canvas.color=ffffff&canvas.height=1900&canvas.width=1900&h=1900&profile=smarthome&q=80&w=1900",desc:"Football simulation featuring clubs and national teams."},
+{name:"FIFA 17",size:"35 GB",cat:"Sports",emoji:"⚽",a:"#184c3c",b:"#253449",img:"https://media.falabella.com/falabellaCO/123238718_01/w%3D800%2Ch%3D800%2Cfit%3Dpad",desc:"Classic EA football gameplay."},
+{name:"WWE 2K24",size:"90 GB",cat:"Sports",emoji:"🤼",a:"#7a2435",b:"#272334",img:"https://media.gamestop.com/i/gamestop/20010432-2d0e9a55",desc:"Wrestling action with a large roster and match types."},
+{name:"Tekken 7",size:"45 GB",cat:"Fighting",emoji:"👊",a:"#754020",b:"#22213b",img:"https://promart.vteximg.com.br/arquivos/ids/584983/image-25717c822c7c4a76aa7d652345781029.jpg?v=637412580363600000",desc:"The King of Iron Fist fighting tournament."},
+{name:"UFC 4",size:"25 GB",cat:"Fighting",emoji:"🥊",a:"#a33c26",b:"#20202c",img:"https://s3.zoommer.ge/zoommer-images/thumbs/0188696_ufc-4-for-ps4_550.jpeg",desc:"Mixed martial arts combat in the Octagon."},
+{name:"Mortal Kombat 11",size:"50 GB",cat:"Fighting",emoji:"🐉",a:"#725120",b:"#22202e",img:"https://media.falabella.com/falabellaCO/138305093_01/w%3D1500%2Ch%3D1500%2Cfit%3Dcover",desc:"A brutal fighting game with cinematic story mode."},
+{name:"Shadow of the Tomb Raider",size:"40 GB",cat:"Action",emoji:"🏹",a:"#4c6242",b:"#22263a",img:"https://binarytribelectronics.com/cdn/shop/files/Shadow-of-The-Tomb-Raider---PlayStation-4.jpg?v=1712961030&width=1096",desc:"Lara Croft faces the jungle and ancient mysteries."},
+{name:"Days Gone",size:"45 GB",cat:"Story",emoji:"🏍️",a:"#5d4a3c",b:"#22212b",img:"https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/MTA-2967522/sony_sony-ps4-days-gone-standard-dvd-game--pre-order-_full10.jpg",desc:"Survive a dangerous open world on your motorcycle."},
+{name:"Ratchet & Clank",size:"30 GB",cat:"Action",emoji:"🚀",a:"#3a65a0",b:"#4b2c72",img:"https://i.ebayimg.com/images/g/TEUAAOSw94xkTFDk/s-l400.png",desc:"A colourful intergalactic action-platform adventure."}
 ];
 let category="All";const grid=document.getElementById("grid"),search=document.getElementById("search"),count=document.getElementById("count"),empty=document.getElementById("empty"),dialog=document.getElementById("details");
 function showDetails(i){const g=games[i];document.getElementById("modalTitle").textContent=g.name;document.getElementById("modalInfo").textContent=g.desc+" Platform: "+(g.platform||"PS4")+". Approximate storage: "+g.size+". Category: "+g.cat+".;dialog.showModal()}
@@ -72,7 +72,7 @@ async function loadGamesFromDatabase(){
     if(Array.isArray(data)&&data.length){
       const original=games;
       games=data.map(row=>{
-        const fallback=original.find(g=>g.name.toLowerCase()===String(row.name||"").toLowerCase())||{};
+        const fallback=original.find(g=>g.name.toLowerCase().replace(/[^a-z0-9]/g,"")===String(row.name||"").toLowerCase().replace(/[^a-z0-9]/g,""))||{};
         return {
           name:row.name||"Untitled game",
           size:row.size||fallback.size||"Check details",
