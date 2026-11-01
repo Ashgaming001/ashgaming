@@ -1,296 +1,66 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ASH GAMING | PS4 Game Hub</title>
-<meta name="description" content="Explore popular PS4 games, storage sizes, categories and game guides at ASH GAMING.">
+<meta name="description" content="Browse PS4 games at ASH GAMING.">
+<title>ASH GAMING | PS4 Game Store</title>
 <style>
-:root {
-  --bg:#090b10;
-  --panel:#131722;
-  --panel2:#1b2130;
-  --text:#f4f7ff;
-  --muted:#9ca8bc;
-  --cyan:#00e5ff;
-  --purple:#9b5cff;
-}
-* {box-sizing:border-box}
-body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-}
-header {
-  padding:22px 6%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  border-bottom:1px solid #252b3a;
-  background:#0b0d14;
-  position:sticky;
-  top:0;
-  z-index:5;
-}
-.logo {font-size:23px;font-weight:900;letter-spacing:1px}
-.logo span {color:var(--cyan)}
-header a {color:white;text-decoration:none}
-.hero {
-  padding:65px 6% 50px;
-  background:radial-gradient(ellipse at 85% 15%,#342060 0%,transparent 42%),
-             radial-gradient(ellipse at 15% 100%,#073a4a 0%,transparent 45%),
-             #0d1019;
-}
-.tag {
-  color:var(--cyan);
-  font-size:12px;
-  letter-spacing:3px;
-  font-weight:bold;
-}
-h1 {font-size:clamp(36px,7vw,66px);margin:15px 0;line-height:1.06}
-h1 span {color:var(--cyan)}
-.hero p {color:var(--muted);line-height:1.7;max-width:540px}
-.search-wrap {max-width:650px;margin-top:28px}
-input,select {
-  background:var(--panel);
-  border:1px solid #343c4f;
-  color:white;
-  padding:14px;
-  border-radius:10px;
-  font-size:15px;
-  width:100%;
-  outline:none;
-}
-input:focus,select:focus {border-color:var(--cyan)}
-main {padding:32px 6% 55px}
-.section-head {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-bottom:20px;
-}
-h2 {font-size:25px;margin:0}
-.count {color:var(--muted);font-size:13px}
-.filters {display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
-.filter {
-  width:auto;
-  padding:9px 15px;
-  border-radius:30px;
-  background:var(--panel);
-  border:1px solid #303849;
-  color:#d7dfef;
-  cursor:pointer;
-}
-.filter.active,.filter:hover {
-  background:var(--cyan);
-  color:#071016;
-  border-color:var(--cyan);
-}
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
-  gap:17px;
-}
-.card {
-  background:var(--panel);
-  border:1px solid #262d3d;
-  border-radius:15px;
-  overflow:hidden;
-  transition:transform .2s,border-color .2s;
-}
-.card:hover {transform:translateY(-4px);border-color:var(--cyan)}
-.art {
-  min-height:145px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:8px;
-  text-align:center;
-  padding:18px;
-  background:linear-gradient(135deg,var(--c1),var(--c2));
-}
-.art .emoji {font-size:43px;filter:drop-shadow(0 5px 8px #0006)}
-.art small {font-size:10px;letter-spacing:3px;font-weight:bold}
-.details {padding:16px}
-.details h3 {font-size:17px;margin:0 0 9px}
-.meta {
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  color:var(--muted);
-  font-size:12px;
-  margin-bottom:15px;
-}
-.pill {
-  background:#252d3c;
-  border-radius:6px;
-  padding:5px 8px;
-  color:#dce7f8;
-}
-.store {
-  display:block;
-  text-align:center;
-  padding:11px;
-  border-radius:8px;
-  background:#182d39;
-  color:var(--cyan);
-  text-decoration:none;
-  font-size:13px;
-  font-weight:bold;
-}
-.store:hover {background:var(--cyan);color:#061016}
-.empty {display:none;color:var(--muted);padding:35px 0}
-.info {
-  margin-top:45px;
-  padding:24px;
-  background:linear-gradient(120deg,#141a29,#10131d);
-  border:1px solid #292f40;
-  border-radius:15px;
-  line-height:1.7;
-}
-.info p {color:var(--muted)}
-footer {
-  padding:25px 6%;
-  border-top:1px solid #252b3a;
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.7;
-  text-align:center;
-}
-footer strong {color:var(--cyan)}
-@media(max-width:500px) {
-  header {padding:17px 5%}
-  .logo {font-size:19px}
-  .hero {padding:48px 5% 38px}
-  main {padding:28px 5% 45px}
-  .grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .art {min-height:115px;padding:12px}
-  .art .emoji {font-size:34px}
-  .details {padding:11px}
-  .details h3 {font-size:14px;line-height:1.35}
-  .meta {font-size:11px;flex-wrap:wrap}
-  .store {font-size:11px;padding:10px 5px}
-}
+:root{--bg:#080b12;--panel:#121927;--panel2:#1a2435;--text:#f4f7ff;--muted:#a5b1c5;--cyan:#00e5ff;--purple:#9b5cff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+header{padding:18px 6%;display:flex;justify-content:space-between;align-items:center;gap:14px;background:#0b101a;border-bottom:1px solid #263247;position:sticky;top:0;z-index:5}
+.logo{font-size:22px;font-weight:900;letter-spacing:1px;color:white;text-decoration:none}.logo span{color:var(--cyan)}
+header nav{display:flex;gap:18px}header nav a{color:#dce6f5;text-decoration:none;font-size:13px}
+.hero{padding:60px 6% 45px;background:radial-gradient(ellipse at 85% 10%,#38205f 0%,transparent 43%),radial-gradient(ellipse at 10% 100%,#063d4b 0%,transparent 45%),#0d1420}
+.tag{color:var(--cyan);font-size:11px;letter-spacing:3px;font-weight:bold}h1{font-size:clamp(38px,7vw,68px);line-height:1.04;margin:14px 0}h1 span{color:var(--cyan)}.hero p{color:var(--muted);max-width:560px;line-height:1.7}
+.search{max-width:620px;margin-top:25px}input,select{width:100%;padding:13px 15px;border-radius:10px;border:1px solid #344158;background:var(--panel);color:white;font-size:15px;outline:none}
+main{padding:32px 6% 55px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h2{margin:0;font-size:25px}.count{font-size:13px;color:var(--muted)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.filter{border:1px solid #344158;background:var(--panel);color:#dce6f5;padding:9px 15px;border-radius:25px;cursor:pointer}.filter.active,.filter:hover{background:var(--cyan);color:#061016;border-color:var(--cyan)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:17px}.card{background:var(--panel);border:1px solid #263247;border-radius:14px;overflow:hidden;transition:.2s}.card:hover{transform:translateY(-4px);border-color:var(--cyan)}
+.cover{height:250px;position:relative;background:linear-gradient(145deg,var(--a),var(--b));display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}.cover .fallback{padding:18px;text-align:center;font-weight:900;font-size:22px;letter-spacing:1px;text-shadow:0 3px 12px #000}.cover .fallback small{display:block;font-size:10px;letter-spacing:3px;margin-bottom:12px;color:#baf7ff}
+.price{position:absolute;right:10px;top:10px;background:var(--cyan);color:#061016;font-weight:900;padding:7px 10px;border-radius:7px;font-size:13px}
+.details{padding:14px}.details h3{font-size:16px;margin:0 0 10px;min-height:38px}.meta{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:12px;margin-bottom:13px}.pill{background:#253147;padding:5px 8px;border-radius:6px}
+.actions{display:flex;gap:8px}.actions button{flex:1;border:0;border-radius:8px;padding:10px 7px;font-weight:bold;cursor:pointer;font-size:12px}.view{background:#26364c;color:#e8f3ff}.order{background:var(--cyan);color:#061016}.empty{display:none;color:var(--muted);padding:35px 0}
+.info{margin-top:42px;padding:22px;background:linear-gradient(120deg,#141d2c,#101722);border:1px solid #29364b;border-radius:14px;line-height:1.7}.info p{color:var(--muted)}
+footer{padding:24px 6%;text-align:center;border-top:1px solid #263247;color:var(--muted);font-size:13px;line-height:1.8}footer strong{color:var(--cyan)}
+dialog{width:min(92%,520px);border:1px solid #3a4b66;border-radius:16px;background:#111a29;color:white;padding:0}dialog::backdrop{background:#000b}.modal-inner{padding:22px}.modal-inner h2{margin-bottom:12px}.modal-inner p{color:var(--muted);line-height:1.6}.close{float:right;background:#27364b;color:white;border:0;border-radius:8px;padding:8px 12px;cursor:pointer}
+@media(max-width:520px){header{padding:16px 5%}.logo{font-size:19px}header nav{gap:10px}header nav a{font-size:11px}.hero{padding:46px 5% 36px}main{padding:26px 5% 42px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cover{height:190px}.details{padding:10px}.details h3{font-size:14px;min-height:36px}.meta{font-size:10px;flex-wrap:wrap}.actions button{font-size:10px;padding:9px 4px}}
 </style>
 </head>
 <body>
-
-<header>
-  <a class="logo" href="#">ASH <span>GAMING</span></a>
-  <a href="#games">EXPLORE GAMES ↘</a>
-</header>
-
-<section class="hero">
-  <div class="tag">YOUR GAMING ZONE / PS4</div>
-  <h1>PLAY BIG.<br><span>GAME ON.</span></h1>
-  <p>Discover legendary PlayStation games, explore genres and check approximate storage requirements — all in one place.</p>
-  <div class="search-wrap">
-    <input id="search" type="search" placeholder="🔎  Search games..." aria-label="Search games">
-  </div>
-</section>
-
-<main id="games">
-  <div class="section-head">
-    <h2>Explore the library</h2>
-    <span class="count" id="count">17 games</span>
-  </div>
-
-  <div class="filters" id="filters">
-    <button class="filter active" data-category="All">All Games</button>
-    <button class="filter" data-category="Story">Story</button>
-    <button class="filter" data-category="Action">Action</button>
-    <button class="filter" data-category="Fighting">Fighting</button>
-    <button class="filter" data-category="Sports">Sports</button>
-  </div>
-
-  <div class="grid" id="grid"></div>
-  <p class="empty" id="empty">No games found. Try another search.</p>
-
-  <section class="info">
-    <h2>🎮 Welcome to ASH GAMING</h2>
-    <p>Find your next favourite PS4 game, browse by genre and check its estimated storage size before installing.</p>
-    <p><strong>Storage tip:</strong> Game sizes vary by region, updates and installed content. Leave extra free space on your drive.</p>
-    <p><strong>Game guides:</strong> Use the official store links to find game information. For walkthroughs, search the game title plus “walkthrough”.</p>
-  </section>
-</main>
-
-<footer>
-  <strong>ASH GAMING</strong> — Made for gamers 🎮
-  <br>Independent fan website. Not affiliated with Sony or PlayStation.
-  <br>Game names and trademarks belong to their respective owners.
-  <br>Storage sizes are estimates, not guaranteed download sizes.
-</footer>
-
+<header><a class="logo" href="#">ASH <span>GAMING</span></a><nav><a href="#games">GAMES</a><a href="#about">ABOUT</a></nav></header>
+<section class="hero"><div class="tag">YOUR GAMING ZONE / PLAYSTATION 4</div><h1>PLAY BIG.<br><span>GAME ON.</span></h1><p>Explore popular PS4 titles, check game details and place an order with ASH GAMING.</p><div class="search"><input id="search" type="search" placeholder="🔎 Search games..." aria-label="Search games"></div></section>
+<main id="games"><div class="head"><h2>PS4 Game Collection</h2><span class="count" id="count">17 games</span></div>
+<div class="filters" id="filters"><button class="filter active" data-cat="All">All Games</button><button class="filter" data-cat="Story">Story</button><button class="filter" data-cat="Action">Action</button><button class="filter" data-cat="Fighting">Fighting</button><button class="filter" data-cat="Sports">Sports</button></div>
+<div class="grid" id="grid"></div><p class="empty" id="empty">No games found. Try another search.</p>
+<section class="info" id="about"><h2>🎮 Welcome to ASH GAMING</h2><p>Browse our PS4 game collection. Every listed title currently displays a sample price of <strong>₹200</strong>.</p><p>Game availability, edition, region and delivery details must be confirmed before an order is accepted.</p></section></main>
+<footer><strong>ASH GAMING</strong> — Made for gamers 🎮<br>Independent game listing website. Not affiliated with Sony or PlayStation. All game names and artwork belong to their respective owners.</footer>
+<dialog id="details"><div class="modal-inner"><button class="close" id="close">Close ✕</button><h2 id="modalTitle"></h2><p id="modalInfo"></p><p><strong>Listed price: ₹200</strong></p><p>Contact the store to confirm availability and order details.</p></div></dialog>
 <script>
-const games = [
-  {name:"The Last of Us Part II",size:"100 GB",cat:"Story",emoji:"🧟",a:"#49212c",b:"#151b24",search:"last of us tlou"},
-  {name:"God of War",size:"45 GB",cat:"Action",emoji:"⚔️",a:"#573b28",b:"#182d40",search:"kratos"},
-  {name:"Ghost of Tsushima",size:"50 GB",cat:"Story",emoji:"🥷",a:"#8b412d",b:"#242440",search:"samurai ghost"},
-  {name:"Marvel's Spider-Man",size:"45 GB",cat:"Action",emoji:"🕷️",a:"#81212d",b:"#202e56",search:"spiderman marvel"},
-  {name:"Red Dead Redemption 2",size:"100 GB",cat:"Story",emoji:"🤠",a:"#7a3c27",b:"#191919",search:"rdr2 red dead"},
-  {name:"Uncharted 4",size:"50 GB",cat:"Story",emoji:"🧭",a:"#2b645f",b:"#17283e",search:"nathan drake"},
-  {name:"Horizon Zero Dawn",size:"50 GB",cat:"Action",emoji:"🏹",a:"#356b75",b:"#30264c",search:"horizon aloy"},
-  {name:"GTA V",size:"90 GB",cat:"Action",emoji:"🚘",a:"#326c45",b:"#202638",search:"gta grand theft auto"},
-  {name:"EA Sports FC 25",size:"50 GB",cat:"Sports",emoji:"⚽",a:"#126849",b:"#183047",search:"fc25 football soccer"},
-  {name:"FIFA 17",size:"35 GB",cat:"Sports",emoji:"⚽",a:"#184c3c",b:"#253449",search:"fifa 17"},
-  {name:"WWE 2K24",size:"90 GB",cat:"Sports",emoji:"🤼",a:"#7a2435",b:"#272334",search:"wwe wrestling"},
-  {name:"Tekken 7",size:"45 GB",cat:"Fighting",emoji:"👊",a:"#754020",b:"#22213b",search:"tekken kazuya jin"},
-  {name:"UFC 4",size:"25 GB",cat:"Fighting",emoji:"🥊",a:"#a33c26",b:"#20202c",search:"ufc mma"},
-  {name:"Mortal Kombat 11",size:"50 GB",cat:"Fighting",emoji:"🐉",a:"#725120",b:"#22202e",search:"mk11 mortal kombat"},
-  {name:"Shadow of the Tomb Raider",size:"40 GB",cat:"Action",emoji:"🏹",a:"#4c6242",b:"#22263a",search:"lara croft tomb raider"},
-  {name:"Days Gone",size:"45 GB",cat:"Story",emoji:"🏍️",a:"#5d4a3c",b:"#22212b",search:"zombie biker"},
-  {name:"Ratchet & Clank",size:"30 GB",cat:"Action",emoji:"🚀",a:"#3a65a0",b:"#4b2c72",search:"ratchet clank"}
+const games=[
+{name:"The Last of Us Part II",size:"100 GB",cat:"Story",emoji:"🧟",a:"#49212c",b:"#151b24",img:"https://upload.wikimedia.org/wikipedia/en/4/4f/The_Last_of_Us_Part_II_cover_art.jpg",desc:"A cinematic post-apocalyptic action-adventure story."},
+{name:"God of War",size:"45 GB",cat:"Action",emoji:"⚔️",a:"#573b28",b:"#182d40",img:"https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg",desc:"Kratos and Atreus journey through the Norse realms."},
+{name:"Ghost of Tsushima",size:"50 GB",cat:"Story",emoji:"🥷",a:"#8b412d",b:"#242440",img:"https://upload.wikimedia.org/wikipedia/en/b/b6/Ghost_of_Tsushima.jpg",desc:"An open-world samurai adventure set in feudal Japan."},
+{name:"Marvel's Spider-Man",size:"45 GB",cat:"Action",emoji:"🕷️",a:"#81212d",b:"#202e56",img:"https://upload.wikimedia.org/wikipedia/en/e/e1/Spider-Man_PS4_cover.jpg",desc:"Swing through New York as the friendly neighbourhood hero."},
+{name:"Red Dead Redemption 2",size:"100 GB",cat:"Story",emoji:"🤠",a:"#7a3c27",b:"#191919",img:"https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg",desc:"An expansive western adventure following Arthur Morgan."},
+{name:"Uncharted 4",size:"50 GB",cat:"Story",emoji:"🧭",a:"#2b645f",b:"#17283e",img:"https://upload.wikimedia.org/wikipedia/en/1/1a/Uncharted_4_box_artwork.jpg",desc:"Nathan Drake returns for one last globe-trotting adventure."},
+{name:"Horizon Zero Dawn",size:"50 GB",cat:"Action",emoji:"🏹",a:"#356b75",b:"#30264c",img:"https://upload.wikimedia.org/wikipedia/en/9/93/Horizon_Zero_Dawn.jpg",desc:"Explore a machine-filled world as the hunter Aloy."},
+{name:"Grand Theft Auto V",size:"90 GB",cat:"Action",emoji:"🚘",a:"#326c45",b:"#202638",img:"https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png",desc:"Open-world action across Los Santos."},
+{name:"EA Sports FC 25",size:"50 GB",cat:"Sports",emoji:"⚽",a:"#126849",b:"#183047",desc:"Football simulation featuring clubs and national teams."},
+{name:"FIFA 17",size:"35 GB",cat:"Sports",emoji:"⚽",a:"#184c3c",b:"#253449",desc:"Classic EA football gameplay."},
+{name:"WWE 2K24",size:"90 GB",cat:"Sports",emoji:"🤼",a:"#7a2435",b:"#272334",desc:"Wrestling action with a large roster and match types."},
+{name:"Tekken 7",size:"45 GB",cat:"Fighting",emoji:"👊",a:"#754020",b:"#22213b",desc:"The King of Iron Fist fighting tournament."},
+{name:"UFC 4",size:"25 GB",cat:"Fighting",emoji:"🥊",a:"#a33c26",b:"#20202c",desc:"Mixed martial arts combat in the Octagon."},
+{name:"Mortal Kombat 11",size:"50 GB",cat:"Fighting",emoji:"🐉",a:"#725120",b:"#22202e",desc:"A brutal fighting game with cinematic story mode."},
+{name:"Shadow of the Tomb Raider",size:"40 GB",cat:"Action",emoji:"🏹",a:"#4c6242",b:"#22263a",desc:"Lara Croft faces the jungle and ancient mysteries."},
+{name:"Days Gone",size:"45 GB",cat:"Story",emoji:"🏍️",a:"#5d4a3c",b:"#22212b",desc:"Survive a dangerous open world on your motorcycle."},
+{name:"Ratchet & Clank",size:"30 GB",cat:"Action",emoji:"🚀",a:"#3a65a0",b:"#4b2c72",desc:"A colourful intergalactic action-platform adventure."}
 ];
-
-let category = "All";
-const grid = document.getElementById("grid");
-const search = document.getElementById("search");
-const count = document.getElementById("count");
-const empty = document.getElementById("empty");
-
-function render() {
-  const term = search.value.toLowerCase().trim();
-  const visible = games.filter(g =>
-    (category === "All" || g.cat === category) &&
-    (g.name.toLowerCase().includes(term) || g.search.includes(term))
-  );
-
-  count.textContent = visible.length + (visible.length === 1 ? " game" : " games");
-  empty.style.display = visible.length ? "none" : "block";
-
-  grid.innerHTML = visible.map(g => `
-    <article class="card">
-      <div class="art" style="--c1:${g.a};--c2:${g.b}">
-        <span class="emoji">${g.emoji}</span>
-        <small>ASH GAMING • PS4</small>
-      </div>
-      <div class="details">
-        <h3>${g.name}</h3>
-        <div class="meta">
-          <span class="pill">${g.cat}</span>
-          <span>💾 ~${g.size}</span>
-        </div>
-        <a class="store" href="https://store.playstation.com/en-in/search/${encodeURIComponent(g.name)}" target="_blank" rel="noopener noreferrer">FIND GAME ↗</a>
-      </div>
-    </article>
-  `).join("");
-}
-
-search.addEventListener("input", render);
-document.querySelectorAll(".filter").forEach(button => {
-  button.addEventListener("click", () => {
-    category = button.dataset.category;
-    document.querySelectorAll(".filter").forEach(b => b.classList.toggle("active", b === button));
-    render();
-  });
-});
-render();
-</script>
-</body>
-</html>
+let category="All";const grid=document.getElementById("grid"),search=document.getElementById("search"),count=document.getElementById("count"),empty=document.getElementById("empty"),dialog=document.getElementById("details");
+function showDetails(i){const g=games[i];document.getElementById("modalTitle").textContent=g.name;document.getElementById("modalInfo").textContent=g.desc+" Approximate storage: "+g.size+". Category: "+g.cat+".";dialog.showModal()}
+function render(){const term=search.value.toLowerCase().trim();const visible=games.map((g,i)=>({...g,index:i})).filter(g=>(category==="All"||g.cat===category)&&(g.name.toLowerCase().includes(term)||g.cat.toLowerCase().includes(term)));count.textContent=visible.length+" games";empty.style.display=visible.length?"none":"block";grid.innerHTML=visible.map(g=>'<article class="card"><div class="cover" role="button" tabindex="0" data-view="'+g.index+'" style="--a:'+g.a+';--b:'+g.b+'">'+(g.img?'<img src="'+g.img+'" alt="'+g.name+' PS4 cover" loading="lazy" onerror="this.remove();this.parentElement.insertAdjacentHTML(\'afterbegin\',\'<div class=&quot;fallback&quot;><small>ASH GAMING • PS4</small>'+g.emoji+'<br>'+g.name+'</div>\')">':'<div class="fallback"><small>ASH GAMING • PS4</small>'+g.emoji+'<br>'+g.name+'</div>')+'<span class="price">₹200</span></div><div class="details"><h3>'+g.name+'</h3><div class="meta"><span class="pill">'+g.cat+'</span><span>💾 ~'+g.size+'</span></div><div class="actions"><button class="view" data-view="'+g.index+'">DETAILS</button><button class="order" data-view="'+g.index+'">ORDER</button></div></div></article>').join("");}
+search.addEventListener("input",render);document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{category=b.dataset.cat;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()}));
+grid.addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(!b)return;const i=Number(b.dataset.view);if(e.target.closest(".order")){const g=games[i];document.getElementById("modalTitle").textContent="Order: "+g.name;document.getElementById("modalInfo").textContent="This title is listed at ₹200. WhatsApp ordering is not connected yet. Please contact the store owner to confirm availability.";dialog.showModal()}else showDetails(i)});
+grid.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches(".cover"))showDetails(Number(e.target.dataset.view))});document.getElementById("close").addEventListener("click",()=>dialog.close());render();
+</script></body></html>
