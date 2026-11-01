@@ -77,7 +77,61 @@ let games=[
 ];
 let category="All",platformFilter="All";const grid=document.getElementById("grid"),search=document.getElementById("search"),count=document.getElementById("count"),empty=document.getElementById("empty"),dialog=document.getElementById("details");
 function showDetails(i){const g=games[i];document.getElementById("modalTitle").textContent=g.name;document.getElementById("modalPrice").textContent="Listed price: ₹"+(g.price||200);document.getElementById("modalInfo").textContent=g.desc+" Platform: "+(g.platform||"PS4")+". Approximate storage: "+g.size+". Category: "+g.cat+".";dialog.showModal()}
-function render(){const term=search.value.toLowerCase().trim();const visible=games.map((g,i)=>({...g,index:i})).filter(g=>(category==="All"||g.cat===category)&&(platformFilter==="All"||String(g.platform||"PS4").split("/").includes(platformFilter))&&(g.name.toLowerCase().includes(term)||g.cat.toLowerCase().includes(term)));count.textContent=visible.length+" games";empty.style.display=visible.length?"none":"block";grid.innerHTML=visible.map(g=>'<article class="card"><div class="cover" role="button" tabindex="0" data-view="'+g.index+'" style="--a:'+g.a+';--b:'+g.b+'">'+(g.img?'<img src="'+g.img+'" alt="'+g.name+' PS4 cover" loading="lazy" onerror="this.remove();this.parentElement.insertAdjacentHTML(\'afterbegin\',\'<div class=&quot;fallback&quot;><small>ASH GAMING • PS4</small>'+g.emoji+'<br>'+g.name+'</div>\')">':'<div class="fallback"><small>ASH GAMING • PS4</small>'+g.emoji+'<br>'+g.name+'</div>')+'<span class="price">₹'+(g.price||200)+'</span></div><div class="details"><h3>'+g.name+'</h3><div class="meta"><span class="pill">'+g.cat+'</span><span class="platform">'+(g.platform||"PS4")+'</span><span>💾 ~'+g.size+'</span></div><div class="actions"><button class="view" data-view="'+g.index+'">DETAILS</button><button class="order" data-view="'+g.index+'">ORDER</button></div></div></article>').join("");}
+const posterCache=new Map();
+let posterObserver=null;
+function setPoster(img,url){
+  const fallback=img.nextElementSibling;
+  img.onload=()=>{img.style.display="block";if(fallback)fallback.style.display="none"};
+  img.onerror=()=>{img.style.display="none";if(fallback)fallback.style.display="flex"};
+  img.src=url;
+  if(img.complete&&img.naturalWidth){img.style.display="block";if(fallback)fallback.style.display="none"}
+}
+async function fetchPoster(img){
+  const name=img.dataset.posterName;
+  if(!name||img.dataset.posterRequested==="yes")return;
+  img.dataset.posterRequested="yes";
+  if(posterCache.has(name)){
+    const cached=posterCache.get(name);
+    if(cached)setPoster(img,cached);
+    return;
+  }
+  try{
+    const response=await fetch("/api/poster?name="+encodeURIComponent(name));
+    if(!response.ok){posterCache.set(name,null);return}
+    const result=await response.json();
+    if(result.url){posterCache.set(name,result.url);setPoster(img,result.url)}
+    else posterCache.set(name,null);
+  }catch(error){posterCache.set(name,null);console.warn("Poster lookup failed for",name,error)}
+}
+function watchPosters(){
+  const covers=grid.querySelectorAll(".cover");
+  if("IntersectionObserver" in window){
+    if(!posterObserver)posterObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          posterObserver.unobserve(entry.target);
+          const img=entry.target.querySelector("[data-poster-name]");
+          if(img)fetchPoster(img);
+        }
+      });
+    },{rootMargin:"350px"});
+    covers.forEach(cover=>posterObserver.observe(cover));
+  }else{
+    grid.querySelectorAll("[data-poster-name]").forEach(fetchPoster);
+  }
+}
+function render(){
+  const term=search.value.toLowerCase().trim();
+  const visible=games.map((g,i)=>({...g,index:i})).filter(g=>(category==="All"||g.cat===category)&&(platformFilter==="All"||String(g.platform||"PS4").split("/").includes(platformFilter))&&(g.name.toLowerCase().includes(term)||g.cat.toLowerCase().includes(term)));
+  const safe=v=>String(v??"").replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[s]));
+  count.textContent=visible.length+" games";empty.style.display=visible.length?"none":"block";
+  grid.innerHTML=visible.map(g=>{
+    const name=safe(g.name),platform=safe(g.platform||"PS4"),cat=safe(g.cat),size=safe(g.size),emoji=safe(g.emoji||"🎮");
+    const oldImage=safe(g.img||"");
+    return '<article class="card"><div class="cover" role="button" tabindex="0" data-view="'+g.index+'" style="--a:'+g.a+';--b:'+g.b+'"><img class="game-poster" data-poster-name="'+name+'" alt="'+name+' cover art" loading="lazy" src="'+oldImage+'" style="'+(oldImage?"":"display:none")+'"><div class="fallback" style="'+(oldImage?"display:none":"")+'"><small>ASH GAMING • '+platform+'</small>'+emoji+'<br>'+name+'</div><span class="price">₹'+(g.price||200)+'</span></div><div class="details"><h3>'+name+'</h3><div class="meta"><span class="pill">'+cat+'</span><span class="platform">'+platform+'</span><span>💾 ~'+size+'</span></div><div class="actions"><button class="view" data-view="'+g.index+'">DETAILS</button><button class="order" data-view="'+g.index+'">ORDER</button></div></div></article>';
+  }).join("");
+  watchPosters();
+}
 search.addEventListener("input",render);document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.platform){platformFilter=b.dataset.platform;category="All"}else{category=b.dataset.cat;platformFilter="All"}document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()}));
 grid.addEventListener("click",async e=>{const b=e.target.closest("[data-view]");if(!b)return;const i=Number(b.dataset.view);if(e.target.closest(".order")){const g=games[i];const message="Hello ASH GAMING! I want to order this game.\\nGame: "+g.name+"\\nPrice: ₹"+(g.price||200)+"\\nPlatform: "+(g.platform||"PS4")+"\\nPlease confirm availability. I will share my delivery details here.";const {error}=await window.ashSupabase.from("orders").insert({game_name:g.name,product_id:g.id||null,price:Number(g.price)||200,platform:g.platform||"PS4",status:"new"});if(error){if(!confirm("The order could not be saved in the admin dashboard ("+error.message+"). Continue to WhatsApp anyway?"))return;}window.location.href="https://wa.me/919682340439?text="+encodeURIComponent(message);return}else{document.getElementById("orderForm").hidden=true;document.getElementById("orderHint").hidden=false;showDetails(i)}});
 grid.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches(".cover"))showDetails(Number(e.target.dataset.view))});document.getElementById("close").addEventListener("click",()=>dialog.close());
