@@ -78,6 +78,8 @@ let games=[
 let category="All",platformFilter="All";const grid=document.getElementById("grid"),search=document.getElementById("search"),count=document.getElementById("count"),empty=document.getElementById("empty"),dialog=document.getElementById("details");
 function showDetails(i){const g=games[i];document.getElementById("modalTitle").textContent=g.name;document.getElementById("modalPrice").textContent="Listed price: ₹"+(g.price||200);document.getElementById("modalInfo").textContent=g.desc+" Platform: "+(g.platform||"PS4")+". Approximate storage: "+g.size+". Category: "+g.cat+".";dialog.showModal()}
 const posterCache=new Map();
+const posterQueue=[];
+let posterActive=0;
 let posterObserver=null;
 function setPoster(img,url){
   const fallback=img.nextElementSibling;
@@ -86,22 +88,50 @@ function setPoster(img,url){
   img.src=url;
   if(img.complete&&img.naturalWidth){img.style.display="block";if(fallback)fallback.style.display="none"}
 }
-async function fetchPoster(img){
+function queuePoster(img){
   const name=img.dataset.posterName;
-  if(!name||img.dataset.posterRequested==="yes")return;
-  img.dataset.posterRequested="yes";
+  if(!name||img.dataset.posterQueued==="yes")return;
   if(posterCache.has(name)){
     const cached=posterCache.get(name);
     if(cached)setPoster(img,cached);
     return;
   }
-  try{
-    const response=await fetch("/api/poster?name="+encodeURIComponent(name));
-    if(!response.ok){posterCache.set(name,null);return}
-    const result=await response.json();
-    if(result.url){posterCache.set(name,result.url);setPoster(img,result.url)}
-    else posterCache.set(name,null);
-  }catch(error){posterCache.set(name,null);console.warn("Poster lookup failed for",name,error)}
+  img.dataset.posterQueued="yes";
+  posterQueue.push({img,name});
+  processPosterQueue();
+}
+async function lookupPoster(name){
+  let lastError=null;
+  for(let attempt=0;attempt<3;attempt++){
+    try{
+      const response=await fetch("/api/poster?name="+encodeURIComponent(name),{cache:"force-cache"});
+      if(response.ok){
+        const result=await response.json();
+        if(result.url)return {url:result.url,permanent:true};
+        return {url:null,permanent:true};
+      }
+      if(response.status===404)return {url:null,permanent:true};
+      lastError=new Error("Poster request failed: "+response.status);
+      if(response.status!==429&&response.status<500)break;
+    }catch(error){lastError=error}
+    await new Promise(resolve=>setTimeout(resolve,700*(attempt+1)));
+  }
+  console.warn("Poster lookup will be retried when the page is refreshed:",name,lastError);
+  return {url:null,permanent:false};
+}
+async function processPosterQueue(){
+  while(posterActive<3&&posterQueue.length){
+    const job=posterQueue.shift();
+    posterActive++;
+    lookupPoster(job.name).then(result=>{
+      if(result.permanent)posterCache.set(job.name,result.url);
+      if(result.url&&job.img.isConnected)setPoster(job.img,result.url);
+      if(!result.permanent)job.img.dataset.posterQueued="no";
+    }).finally(()=>{
+      posterActive--;
+      processPosterQueue();
+    });
+  }
 }
 function watchPosters(){
   const covers=grid.querySelectorAll(".cover");
@@ -111,13 +141,13 @@ function watchPosters(){
         if(entry.isIntersecting){
           posterObserver.unobserve(entry.target);
           const img=entry.target.querySelector("[data-poster-name]");
-          if(img)fetchPoster(img);
+          if(img)queuePoster(img);
         }
       });
-    },{rootMargin:"350px"});
+    },{rootMargin:"600px"});
     covers.forEach(cover=>posterObserver.observe(cover));
   }else{
-    grid.querySelectorAll("[data-poster-name]").forEach(fetchPoster);
+    grid.querySelectorAll("[data-poster-name]").forEach(queuePoster);
   }
 }
 function render(){
