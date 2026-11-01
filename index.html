@@ -37,8 +37,9 @@ dialog{width:min(92%,520px);border:1px solid #3a4b66;border-radius:16px;backgrou
 <section class="info" id="about"><h2>🎮 Welcome to ASH GAMING</h2><p>Browse our PS4 game collection. Every listed title currently displays a sample price of <strong>₹200</strong>.</p><p>Game availability, edition, region and delivery details must be confirmed before an order is accepted.</p></section></main>
 <footer><strong>ASH GAMING</strong> — Made for gamers 🎮<br>Independent game listing website. Not affiliated with Sony or PlayStation. All game names and artwork belong to their respective owners.</footer>
 <dialog id="details"><div class="modal-inner"><button class="close" id="close">Close ✕</button><h2 id="modalTitle"></h2><p id="modalInfo"></p><p><strong>Listed price: ₹200</strong></p><p>Contact the store to confirm availability and order details.</p></div></dialog>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const games=[
+let games=[
 {name:"The Last of Us Part II",size:"100 GB",cat:"Story",emoji:"🧟",a:"#49212c",b:"#151b24",img:"https://upload.wikimedia.org/wikipedia/en/4/4f/The_Last_of_Us_Part_II_cover_art.jpg",desc:"A cinematic post-apocalyptic action-adventure story."},
 {name:"God of War",size:"45 GB",cat:"Action",emoji:"⚔️",a:"#573b28",b:"#182d40",img:"https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg",desc:"Kratos and Atreus journey through the Norse realms."},
 {name:"Ghost of Tsushima",size:"50 GB",cat:"Story",emoji:"🥷",a:"#8b412d",b:"#242440",img:"https://upload.wikimedia.org/wikipedia/en/b/b6/Ghost_of_Tsushima.jpg",desc:"An open-world samurai adventure set in feudal Japan."},
@@ -62,5 +63,33 @@ function showDetails(i){const g=games[i];document.getElementById("modalTitle").t
 function render(){const term=search.value.toLowerCase().trim();const visible=games.map((g,i)=>({...g,index:i})).filter(g=>(category==="All"||g.cat===category)&&(g.name.toLowerCase().includes(term)||g.cat.toLowerCase().includes(term)));count.textContent=visible.length+" games";empty.style.display=visible.length?"none":"block";grid.innerHTML=visible.map(g=>'<article class="card"><div class="cover" role="button" tabindex="0" data-view="'+g.index+'" style="--a:'+g.a+';--b:'+g.b+'">'+(g.img?'<img src="'+g.img+'" alt="'+g.name+' PS4 cover" loading="lazy" onerror="this.remove();this.parentElement.insertAdjacentHTML(\'afterbegin\',\'<div class=&quot;fallback&quot;><small>ASH GAMING • PS4</small>'+g.emoji+'<br>'+g.name+'</div>\')">':'<div class="fallback"><small>ASH GAMING • PS4</small>'+g.emoji+'<br>'+g.name+'</div>')+'<span class="price">₹200</span></div><div class="details"><h3>'+g.name+'</h3><div class="meta"><span class="pill">'+g.cat+'</span><span>💾 ~'+g.size+'</span></div><div class="actions"><button class="view" data-view="'+g.index+'">DETAILS</button><button class="order" data-view="'+g.index+'">ORDER</button></div></div></article>').join("");}
 search.addEventListener("input",render);document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{category=b.dataset.cat;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()}));
 grid.addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(!b)return;const i=Number(b.dataset.view);if(e.target.closest(".order")){const g=games[i];document.getElementById("modalTitle").textContent="Order: "+g.name;document.getElementById("modalInfo").textContent="This title is listed at ₹200. WhatsApp ordering is not connected yet. Please contact the store owner to confirm availability.";dialog.showModal()}else showDetails(i)});
-grid.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches(".cover"))showDetails(Number(e.target.dataset.view))});document.getElementById("close").addEventListener("click",()=>dialog.close());render();
+grid.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches(".cover"))showDetails(Number(e.target.dataset.view))});document.getElementById("close").addEventListener("click",()=>dialog.close());
+async function loadGamesFromDatabase(){
+  try{
+    const client=window.supabase.createClient("https://xqdiumkisbtkjcgfuyzc.supabase.co","sb_publishable_qxVvbg2GXQiRuNA4Xk3nOQ_NKH5jOpJ");
+    const {data,error}=await client.from("products").select("*").eq("active",true).order("created_at",{ascending:true});
+    if(error) throw error;
+    if(Array.isArray(data)&&data.length){
+      const original=games;
+      games=data.map(row=>{
+        const fallback=original.find(g=>g.name.toLowerCase()===String(row.name||"").toLowerCase())||{};
+        return {
+          name:row.name||"Untitled game",
+          size:row.size||fallback.size||"Check details",
+          cat:row.category||fallback.cat||"Other",
+          emoji:fallback.emoji||"🎮",
+          a:fallback.a||"#26364c",
+          b:fallback.b||"#101722",
+          img:row.image_url||fallback.img||"",
+          desc:row.description||fallback.desc||"Contact ASH GAMING for game details."
+        };
+      });
+      render();
+    }
+  }catch(error){
+    console.error("ASH GAMING database connection:",error);
+  }
+}
+render();
+loadGamesFromDatabase();
 </script></body></html>
