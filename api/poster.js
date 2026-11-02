@@ -14,12 +14,12 @@ module.exports = async function handler(req, res) {
 
   const headers = { Authorization: "Bearer " + apiKey };
   const base = "https://www.steamgriddb.com/api/v2/";
-  const normalize = value => String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const normalize = value => String(value || "").normalize("NFKD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
   const clean = value => String(value || "").replace(/\\s*[:–—-]\\s*.+$/, "").trim();
 
   try {
     // Try the full title first, then a shorter base title for editions/subtitles.
-    const queries = [...new Set([name, clean(name)].filter(Boolean))];
+    const queries = [...new Set([name, clean(name), name.replace(/[:–—-]/g, " "), name.replace(/\\b(the|edition|remastered|definitive)\\b/ig, " ").replace(/\\s+/g, " ").trim()].filter(Boolean))];
     const candidateMap = new Map();
     for (const query of queries) {
       const response = await fetch(base + "search/autocomplete/" + encodeURIComponent(query), { headers });
@@ -33,7 +33,7 @@ module.exports = async function handler(req, res) {
       for (const game of (Array.isArray(result.data) ? result.data : [])) {
         if (game && game.id) candidateMap.set(String(game.id), game);
       }
-      if (candidateMap.size >= 12) break;
+      if (candidateMap.size >= 30) break;
     }
 
     const candidates = [...candidateMap.values()];
@@ -52,9 +52,9 @@ module.exports = async function handler(req, res) {
     });
 
     // Check more candidate matches; some editions have a search result but no artwork.
-    for (const game of candidates.slice(0, 10)) {
+    for (const game of candidates.slice(0, 20)) {
       const gridsResponse = await fetch(
-        base + "grids/game/" + encodeURIComponent(game.id) + "?types=static&limit=50",
+        base + "grids/game/" + encodeURIComponent(game.id) + "?types=static&limit=100",
         { headers }
       );
       if (!gridsResponse.ok) continue;
