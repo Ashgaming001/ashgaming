@@ -267,7 +267,7 @@ async function loadGamesFromDatabase(){
           emoji:fallback.emoji||"🎮",
           a:fallback.a||"#26364c",
           b:fallback.b||"#101722",
-          img:row.image_url||fallback.img||verifiedPosterUrls[row.name]||"",
+          img:(String(row.platform||fallback.platform||"PS4").toUpperCase().includes("PS5")?(verifiedPosterUrls[row.name]||""):(row.image_url||fallback.img||verifiedPosterUrls[row.name]||"")),
           desc:row.description||fallback.desc||"Contact ASH GAMING for game details."
         };
       });
