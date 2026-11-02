@@ -174,6 +174,17 @@ grid.addEventListener("click",async e=>{const b=e.target.closest("[data-view]");
 grid.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches(".cover"))showDetails(Number(e.target.dataset.view))});document.getElementById("close").addEventListener("click",()=>dialog.close());
 document.getElementById("orderForm").addEventListener("submit",async e=>{e.preventDefault();const g=window.currentOrderGame;if(!g)return;const message="Hello ASH GAMING! I want to order this game.\\nGame: "+g.name+"\\nPrice: ₹"+(g.price||200)+"\\nPlatform: "+(g.platform||"PS4")+"\\nPlease confirm availability. I will share my delivery details here.";const {error}=await window.ashSupabase.from("orders").insert({game_name:g.name,product_id:g.id||null,price:Number(g.price)||200,platform:g.platform||"PS4",status:"new"});if(error){if(!confirm("The order could not be saved in the admin dashboard ("+error.message+"). Continue to WhatsApp anyway?"))return;}window.location.href="https://wa.me/919682340439?text="+encodeURIComponent(message);});
 
+const verifiedPosterUrls={
+  "Baldur's Gate 3":"https://cdn.awsli.com.br/600x1000/2549/2549404/produto/232451228/baldurs-gate-3-para-ps5-liongames-9xy6pdbe7x.webp",
+  "Batman: Arkham Knight":"https://www.powerupgaming.ca/cdn/shop/products/362090_front.jpg?v=1731898240",
+  "Sekiro: Shadows Die Twice":"https://product.hstatic.net/1000154920/product/sekiro_shadows_die_twice_43368695092d4137a650c28334d6ce59.png",
+  "Call of Duty: Black Ops 7":"https://www.nfm.com/dw/image/v2/BDFM_PRD/on/demandware.static/-/Sites-nfm-master-catalog/default/dw87df00f6/images/068/91/68919281-1.jpg?sh=1000&sm=fit&sw=1000",
+  "Dragon Ball Z: Kakarot":"https://i5.walmartimages.com/seo/Dragon-Ball-Z-KAKAROT-for-PlayStation-4-New-Video-Game-PS-4_1e425e7b-4682-45dd-926f-fd9e807d1df6.a322164fbefcbe23576e2f528670c399.jpeg?odnBg=FFFFFF&odnHeight=768&odnWidth=768",
+  "Dragon Ball FighterZ":"https://ecommerce.datablitz.com.ph/cdn/shop/files/0722674121156.jpg?v=1737369505",
+  "Dragon Ball: Sparking! ZERO":"https://i.ebayimg.com/images/g/L00AAeSwfp1paznD/s-l1200.jpg",
+  "Returnal":"https://media.gamestop.com/i/gamestop/11112929",
+  "The Crew 2":"https://i5.walmartimages.com/asr/276b851a-4e82-4509-85c7-e848c4189a69.8266ea730dfb6e4e38d2824a7cd971cf.jpeg?odnBg=FFFFFF&odnHeight=576&odnWidth=576"
+};
 async function loadGamesFromDatabase(){
   try{
     const client=window.ashSupabase=window.supabase.createClient("https://xqdiumkisbtkjcgfuyzc.supabase.co","sb_publishable_qxVvbg2GXQiRuNA4Xk3nOQ_NKH5jOpJ");
@@ -193,7 +204,7 @@ async function loadGamesFromDatabase(){
           emoji:fallback.emoji||"🎮",
           a:fallback.a||"#26364c",
           b:fallback.b||"#101722",
-          img:row.image_url||fallback.img||"",
+          img:row.image_url||fallback.img||verifiedPosterUrls[row.name]||"",
           desc:row.description||fallback.desc||"Contact ASH GAMING for game details."
         };
       });
