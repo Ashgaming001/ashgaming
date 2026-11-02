@@ -190,6 +190,10 @@ grid.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.
 document.getElementById("orderForm").addEventListener("submit",async e=>{e.preventDefault();const g=window.currentOrderGame;if(!g)return;const message="Hello ASH GAMING! I want to order this game.\\nGame: "+g.name+"\\nPrice: ₹"+(g.price||200)+"\\nPlatform: "+(g.platform||"PS4")+"\\nPlease confirm availability. I will share my delivery details here.";const {error}=await window.ashSupabase.from("orders").insert({game_name:g.name,product_id:g.id||null,price:Number(g.price)||200,platform:g.platform||"PS4",status:"new"});if(error){if(!confirm("The order could not be saved in the admin dashboard ("+error.message+"). Continue to WhatsApp anyway?"))return;}window.location.href="https://wa.me/919682340439?text="+encodeURIComponent(message);});
 
 const verifiedPosterUrls={
+  "Ratchet & Clank: Rift Apart": "https://i5.walmartimages.com/asr/8acfdecc-7040-412e-b98d-8ac9ea697384.d9d9b2096856b562c1d56d18ef769180.jpeg",
+  "Uncharted: The Lost Legacy": "https://cdn.webshopapp.com/shops/268274/files/486881266/650x650x2/ps4-uncharted-the-lost-legacy-ps4.jpg",
+  "Demon's Souls": "https://down-br.img.susercontent.com/file/sg-11134201-7reot-m2kvttd06hh5cf",
+  "Batman: Return to Arkham": "https://cdn.awsli.com.br/2500x2500/1919/1919257/produto/250168645/001-9guuekkk10.jpg",
   "Rise of the Tomb Raider": "https://zgames.ae/media/catalog/product/cache/ed0e0b9233706b5b42d1db286ecb0c36/uploads/uploads/rise_of_the_tomb_raider_cover_ps4_pegi.webp",
   "Watch Dogs 2": "https://cdn.awsli.com.br/2500x2500/1919/1919257/produto/222547048/watch-dogs-2--1--ljgy478ikh.jpg",
   "The Callisto Protocol": "https://justpressplayonline.com/cdn/shop/files/81tLaYEwsyL._SL1500_e6e86cf5-db7a-46c0-a9b6-1be90cfd9115.jpg?v=1752429463",
