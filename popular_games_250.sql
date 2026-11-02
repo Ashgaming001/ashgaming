@@ -12,7 +12,24 @@ select
   v.category,
   '',
   200,
-  null,
+  case v.name
+    when 'Red Dead Redemption 2' then 'https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg'
+    when 'God of War' then 'https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg'
+    when 'The Last of Us Part II' then 'https://upload.wikimedia.org/wikipedia/en/4/4f/The_Last_of_Us_Part_II_cover_art.jpg'
+    when 'Grand Theft Auto V' then 'https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png'
+    when 'Ghost of Tsushima' then 'https://upload.wikimedia.org/wikipedia/en/b/b6/Ghost_of_Tsushima.jpg'
+    when 'Uncharted 4' then 'https://upload.wikimedia.org/wikipedia/en/1/1a/Uncharted_4_box_artwork.jpg'
+    when 'EA Sports FC 27' then 'https://res.plaisio.gr/c_limit%2Cf_auto%2Cw_2048%2Cq_75/d_Shared%3ANotFound%3Aproduct-notfound.jpg/Shared/Product/Images/5312825.jpg'
+    when 'Days Gone' then 'https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/MTA-2967522/sony_sony-ps4-days-gone-standard-dvd-game--pre-order-_full10.jpg'
+    when 'NBA 2K27' then 'https://static01.galaxus.com/productimages/3/0/2/7/4/6/7/0/0/9/5/9/8/1/8/6/4/0/9/01a0a034-8a1f-7784-9ff9-c0d1b04f9c4d_sea.jpeg'
+    when 'Ghost of Yōtei' then 'https://cdn.hstatic.net/products/1000154920/ghost_of_y_tei_ps5_ec9958f7286b43f59004c69ba7e665d0_grande.png'
+    when 'Marvel’s Spider-Man 2' then 'https://www.pcrichard.com/dw/image/v2/BFXM_PRD/on/demandware.static/-/Sites-pcrichard-master-product-catalog/default/dw4b0aa084/images/hires/Z_711719567653.jpg?sh=800&sm=fit&sw=800'
+    when 'Black Myth: Wukong' then 'https://media.falabella.com/falabellaCO/147428944_01/w%3D1500%2Ch%3D1500%2Cfit%3Dcover'
+    when 'The Blood of Dawnwalker' then 'https://www.thegamecollection.net/cdn/shop/files/PS5_PACKSHOT_2D_PEGI.png?v=1779805611&width=1214'
+    when 'Resident Evil 4' then 'https://i5.walmartimages.com/seo/Resident-Evil-4-PS5-Playstation-5_28a978d3-7c13-4bb8-a575-c184e3faa507.350e7cc0883f7dce67dc53bfbdc76561.jpeg'
+    when 'Forza Horizon 5' then 'https://cdn.awsli.com.br/800x800/2549/2549404/produto/340548819/forza-horizon-5-para-ps5-liongames-fgn4rwa1o2.webp'
+    else null
+  end,
   true
 from (values
   ('Grand Theft Auto V', 'PS4', 'Action'),
