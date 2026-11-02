@@ -1,6 +1,6 @@
 // Vercel serverless proxy for SteamGridDB. Keep the API key server-side.
 module.exports = async function handler(req, res) {
-  res.setHeader("Cache-Control", "s-maxage=86400, stale-while-revalidate=604800");
+  res.setHeader("Cache-Control", "no-store");
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
     return res.status(405).json({ error: "Method not allowed" });
@@ -57,6 +57,7 @@ module.exports = async function handler(req, res) {
       });
       const chosen = portrait[0] || artwork.find(item => item.url);
       if (chosen && chosen.url) {
+        res.setHeader("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=604800");
         return res.status(200).json({
           name: game.name,
           url: chosen.url,
