@@ -91,6 +91,8 @@ function setPoster(img,url){
 function queuePoster(img){
   const name=img.dataset.posterName;
   if(!name||img.dataset.posterQueued==="yes")return;
+  // Keep existing database or built-in artwork; only search for missing posters.
+  if(img.getAttribute("src"))return;
   if(posterCache.has(name)){
     const cached=posterCache.get(name);
     if(cached)setPoster(img,cached);
