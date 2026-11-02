@@ -151,6 +151,11 @@ function watchPosters(){
   }else{
     grid.querySelectorAll("[data-poster-name]").forEach(queuePoster);
   }
+  // Fill the next batch of up to 20 missing covers in catalogue order.
+  // Existing database and built-in artwork are left unchanged.
+  grid.querySelectorAll("[data-poster-name]").forEach((img,index)=>{
+    if(index<20)queuePoster(img);
+  });
 }
 function render(){
   const term=search.value.toLowerCase().trim();
