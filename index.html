@@ -151,11 +151,21 @@ function watchPosters(){
   }else{
     grid.querySelectorAll("[data-poster-name]").forEach(queuePoster);
   }
-  // Queue missing covers for the full 250-game catalogue in catalogue order.
+  // Prioritize the games reported as missing, then queue the rest of the catalogue.
   // Existing database and built-in artwork are left unchanged; lookups run 3 at a time.
-  grid.querySelectorAll("[data-poster-name]").forEach((img,index)=>{
-    if(index<250)queuePoster(img);
-  });
+  const priorityPosters=[
+    "Elden Ring","Uncharted: Legacy of Thieves Collection","Call of Duty: Black Ops 6",
+    "Resident Evil Village","Assassin's Creed Mirage","Call of Duty: Black Ops III",
+    "The Quarry","Stellar Blade","Nioh","Avatar: Frontiers of Pandora","Tekken 8",
+    "Call of Duty: Modern Warfare","Hogwarts Legacy","Far Cry 6","A Plague Tale: Innocence",
+    "Dying Light 2 Stay Human","Resident Evil 3","Monster Hunter Rise",
+    "Far Cry 3 Classic Edition","Crash Team Racing Nitro-Fueled","Need for Speed 2015",
+    "The Crew 2","Resident Evil 4"
+  ];
+  const posterImages=[...grid.querySelectorAll("[data-poster-name]")];
+  const byName=new Map(posterImages.map(img=>[img.dataset.posterName.toLowerCase(),img]));
+  priorityPosters.forEach(name=>{const img=byName.get(name.toLowerCase());if(img)queuePoster(img)});
+  posterImages.forEach((img,index)=>{if(index<250)queuePoster(img)});
 }
 function render(){
   const term=search.value.toLowerCase().trim();
