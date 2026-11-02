@@ -14,6 +14,7 @@ module.exports = async function handler(req, res) {
 
   const headers = { Authorization: "Bearer " + apiKey };
   const base = "https://www.steamgriddb.com/api/v2/";
+  const normalize = value => String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 
   try {
     const searchResponse = await fetch(base + "search/autocomplete/" + encodeURIComponent(name), { headers });
@@ -21,30 +22,50 @@ module.exports = async function handler(req, res) {
       return res.status(searchResponse.status === 401 ? 502 : searchResponse.status)
         .json({ error: searchResponse.status === 401 ? "SteamGridDB rejected the API key. Check the Vercel environment variable." : "SteamGridDB game search failed." });
     }
+
     const search = await searchResponse.json();
     const candidates = Array.isArray(search.data) ? search.data : [];
     if (!candidates.length) return res.status(404).json({ error: "Game not found in SteamGridDB." });
 
-    const normalize = value => String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
     const wanted = normalize(name);
-    const match = candidates.find(game => normalize(game.name) === wanted)
-      || candidates.find(game => normalize(game.name).startsWith(wanted))
-      || candidates[0];
-
-    const gridsUrl = base + "grids/game/" + encodeURIComponent(match.id)
-      + "?dimensions=600x900&types=static&limit=1";
-    const gridsResponse = await fetch(gridsUrl, { headers });
-    if (!gridsResponse.ok) return res.status(502).json({ error: "Could not retrieve the game cover." });
-
-    const grids = await gridsResponse.json();
-    const artwork = Array.isArray(grids.data) ? grids.data : [];
-    if (!artwork.length || !artwork[0].url) return res.status(404).json({ error: "No portrait cover is available for this game." });
-
-    return res.status(200).json({
-      name: match.name,
-      url: artwork[0].url,
-      thumb: artwork[0].thumb || artwork[0].url
+    candidates.sort((a, b) => {
+      const score = game => {
+        const title = normalize(game.name);
+        if (title === wanted) return 0;
+        if (title.startsWith(wanted)) return 1;
+        if (title.includes(wanted) || wanted.includes(title)) return 2;
+        return 3;
+      };
+      return score(a) - score(b);
     });
+
+    // Do not force one exact image resolution: many valid covers use other
+    // supported portrait sizes (for example 342x482 or 660x930).
+    for (const game of candidates.slice(0, 4)) {
+      const gridsResponse = await fetch(
+        base + "grids/game/" + encodeURIComponent(game.id) + "?types=static&limit=20",
+        { headers }
+      );
+      if (!gridsResponse.ok) continue;
+
+      const grids = await gridsResponse.json();
+      const artwork = Array.isArray(grids.data) ? grids.data : [];
+      const portrait = artwork.filter(item => {
+        const width = Number(item.width || 0);
+        const height = Number(item.height || 0);
+        return width > 0 && height > 0 && width / height >= 0.52 && width / height <= 0.88;
+      });
+      const chosen = portrait[0] || artwork.find(item => item.url);
+      if (chosen && chosen.url) {
+        return res.status(200).json({
+          name: game.name,
+          url: chosen.url,
+          thumb: chosen.thumb || chosen.url
+        });
+      }
+    }
+
+    return res.status(404).json({ error: "No portrait cover is available for this game." });
   } catch (error) {
     return res.status(500).json({ error: "Poster lookup failed." });
   }
