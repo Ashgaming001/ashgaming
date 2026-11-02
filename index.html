@@ -104,7 +104,7 @@ async function lookupPoster(name){
   let lastError=null;
   for(let attempt=0;attempt<3;attempt++){
     try{
-      const response=await fetch("/api/poster?name="+encodeURIComponent(name),{cache:"force-cache"});
+      const response=await fetch("/api/poster?name="+encodeURIComponent(name)+"&v=2",{cache:"no-store"});
       if(response.ok){
         const result=await response.json();
         if(result.url)return {url:result.url,permanent:true};
