@@ -190,9 +190,9 @@ grid.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.
 document.getElementById("orderForm").addEventListener("submit",async e=>{e.preventDefault();const g=window.currentOrderGame;if(!g)return;const message="Hello ASH GAMING! I want to order this game.\\nGame: "+g.name+"\\nPrice: ₹"+(g.price||200)+"\\nPlatform: "+(g.platform||"PS4")+"\\nPlease confirm availability. I will share my delivery details here.";const {error}=await window.ashSupabase.from("orders").insert({game_name:g.name,product_id:g.id||null,price:Number(g.price)||200,platform:g.platform||"PS4",status:"new"});if(error){if(!confirm("The order could not be saved in the admin dashboard ("+error.message+"). Continue to WhatsApp anyway?"))return;}window.location.href="https://wa.me/919682340439?text="+encodeURIComponent(message);});
 
 const verifiedPosterUrls={
-  "Uncharted 4: A Thief's End": "https://image.api.playstation.com/cdn/UP9000/CUSA00341_00/6b1GmP9h3QvYxw6xQkq4dQzA.png",
-  "Watch Dogs": "https://cdn.awsli.com.br/600x700/1610/1610165/produto/181126408/1d8e5a1c5f.jpg",
-  "The Last of Us Part I": "https://image.api.playstation.com/vulcan/ap/rnd/202206/0720/6z8gWZ5qG8qkQw9vYV9f7YzN.png",
+  "Uncharted 4: A Thief's End": "https://i5.walmartimages.com/asr/8c237119-800b-4f9f-9f2b-63beaf2105c7_1.beaddafb0fc32766074059459cf02fc0.jpeg",
+  "Watch Dogs": "https://i5.walmartimages.com/seo/Watch-Dogs-PlayStation-4_642e496b-0d9e-4c3f-8200-c141c0165198_2.02887abdab1355b858d683da94460baa.jpeg",
+  "The Last of Us Part I": "https://images.antonline.com/gallery/500/1454036_6_13.jpg",
   "Ratchet & Clank: Rift Apart": "https://i5.walmartimages.com/asr/8acfdecc-7040-412e-b98d-8ac9ea697384.d9d9b2096856b562c1d56d18ef769180.jpeg",
   "Uncharted: The Lost Legacy": "https://cdn.webshopapp.com/shops/268274/files/486881266/650x650x2/ps4-uncharted-the-lost-legacy-ps4.jpg",
   "Demon's Souls": "https://down-br.img.susercontent.com/file/sg-11134201-7reot-m2kvttd06hh5cf",
