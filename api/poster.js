@@ -14,12 +14,12 @@ module.exports = async function handler(req, res) {
 
   const headers = { Authorization: "Bearer " + apiKey };
   const base = "https://www.steamgriddb.com/api/v2/";
-  const normalize = value => String(value || "").normalize("NFKD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
-  const clean = value => String(value || "").replace(/\\s*[:–—-]\\s*.+$/, "").trim();
+  const normalize = value => String(value || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const clean = value => String(value || "").replace(/\s*[:–—-]\s*.+$/, "").trim();
 
   try {
     // Try the full title first, then a shorter base title for editions/subtitles.
-    const queries = [...new Set([name, clean(name), name.replace(/[:–—-]/g, " "), name.replace(/\\b(the|edition|remastered|definitive)\\b/ig, " ").replace(/\\s+/g, " ").trim()].filter(Boolean))];
+    const queries = [...new Set([name, clean(name), name.replace(/[:–—-]/g, " "), name.replace(/\b(the|edition|remastered|definitive)\b/ig, " ").replace(/\s+/g, " ").trim()].filter(Boolean))];
     const candidateMap = new Map();
     for (const query of queries) {
       const response = await fetch(base + "search/autocomplete/" + encodeURIComponent(query), { headers });
