@@ -151,10 +151,10 @@ function watchPosters(){
   }else{
     grid.querySelectorAll("[data-poster-name]").forEach(queuePoster);
   }
-  // Fill the first 60 missing covers in catalogue order (the first 20 plus the next 40).
-  // Existing database and built-in artwork are left unchanged.
+  // Queue missing covers for the full 250-game catalogue in catalogue order.
+  // Existing database and built-in artwork are left unchanged; lookups run 3 at a time.
   grid.querySelectorAll("[data-poster-name]").forEach((img,index)=>{
-    if(index<60)queuePoster(img);
+    if(index<250)queuePoster(img);
   });
 }
 function render(){
