@@ -160,6 +160,11 @@ function render(){
     const oldImage=safe(g.img||"");
     return '<article class="card"><div class="cover" role="button" tabindex="0" data-view="'+g.index+'" style="--a:'+g.a+';--b:'+g.b+'"><img class="game-poster" data-poster-name="'+name+'" alt="'+name+' cover art" loading="lazy" src="'+oldImage+'" style="'+(oldImage?"":"display:none")+'"><div class="fallback" style="'+(oldImage?"display:none":"")+'"><small>ASH GAMING • '+platform+'</small>'+emoji+'<br>'+name+'</div><span class="price">₹'+(g.price||200)+'</span></div><div class="details"><h3>'+name+'</h3><div class="meta"><span class="pill">'+cat+'</span><span class="platform">'+platform+'</span><span>💾 ~'+size+'</span></div><div class="actions"><button class="view" data-view="'+g.index+'">DETAILS</button><button class="order" data-view="'+g.index+'">ORDER</button></div></div></article>';
   }).join("");
+  // Show the built-in game artwork whenever an image URL fails.
+  grid.querySelectorAll(".game-poster").forEach(img=>{
+    img.onerror=()=>{img.style.display="none";const fallback=img.nextElementSibling;if(fallback)fallback.style.display="flex"};
+    img.onload=()=>{img.style.display="block";const fallback=img.nextElementSibling;if(fallback)fallback.style.display="none"};
+  });
   watchPosters();
 }
 search.addEventListener("input",render);document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.platform){platformFilter=b.dataset.platform;category="All"}else{category=b.dataset.cat;platformFilter="All"}document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()}));
