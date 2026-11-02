@@ -190,6 +190,10 @@ grid.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.
 document.getElementById("orderForm").addEventListener("submit",async e=>{e.preventDefault();const g=window.currentOrderGame;if(!g)return;const message="Hello ASH GAMING! I want to order this game.\\nGame: "+g.name+"\\nPrice: ₹"+(g.price||200)+"\\nPlatform: "+(g.platform||"PS4")+"\\nPlease confirm availability. I will share my delivery details here.";const {error}=await window.ashSupabase.from("orders").insert({game_name:g.name,product_id:g.id||null,price:Number(g.price)||200,platform:g.platform||"PS4",status:"new"});if(error){if(!confirm("The order could not be saved in the admin dashboard ("+error.message+"). Continue to WhatsApp anyway?"))return;}window.location.href="https://wa.me/919682340439?text="+encodeURIComponent(message);});
 
 const verifiedPosterUrls={
+  "Crash Team Racing Nitro-Fueled": "https://cdn.awsli.com.br/2500x2500/1919/1919257/produto/154452562/6a982f722f.jpg",
+  "Far Cry 3 Classic Edition": "https://target.scene7.com/is/image/Target/GUEST_a72f10af-2cdc-4f2f-9b28-5f38533f36ee",
+  "Monster Hunter Rise": "https://newlevel.com.ar/wp-content/uploads/2024/07/Monster-Hunter-Rise-PS5.png",
+  "Resident Evil 3": "https://store.sony.com.sg/cdn/shop/products/RESIDENTEVIL_1024x1024.png?v=1754994633",
   "Dying Light 2 Stay Human": "https://cstech.store/cdn/shop/products/p039388_1_800x.jpg?v=1654206192",
   "A Plague Tale: Innocence": "https://playgame.bg/image/cache/catalog/02.2026/A%20plague%20tale%20innocence/a%20plague%20tale%20innocence-800x800.jpg",
   "Far Cry 6": "https://images3.kabum.com.br/produtos/fotos/sync_mirakl/482333/Jogo-Far-Cry-6-PS4_1692902922_gg.jpg",
