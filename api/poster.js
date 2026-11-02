@@ -15,16 +15,28 @@ module.exports = async function handler(req, res) {
   const headers = { Authorization: "Bearer " + apiKey };
   const base = "https://www.steamgriddb.com/api/v2/";
   const normalize = value => String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const clean = value => String(value || "").replace(/\\s*[:–—-]\\s*.+$/, "").trim();
 
   try {
-    const searchResponse = await fetch(base + "search/autocomplete/" + encodeURIComponent(name), { headers });
-    if (!searchResponse.ok) {
-      return res.status(searchResponse.status === 401 ? 502 : searchResponse.status)
-        .json({ error: searchResponse.status === 401 ? "SteamGridDB rejected the API key. Check the Vercel environment variable." : "SteamGridDB game search failed." });
+    // Try the full title first, then a shorter base title for editions/subtitles.
+    const queries = [...new Set([name, clean(name)].filter(Boolean))];
+    const candidateMap = new Map();
+    for (const query of queries) {
+      const response = await fetch(base + "search/autocomplete/" + encodeURIComponent(query), { headers });
+      if (!response.ok) {
+        if (response.status === 401) {
+          return res.status(502).json({ error: "SteamGridDB rejected the API key. Check the Vercel environment variable." });
+        }
+        continue;
+      }
+      const result = await response.json();
+      for (const game of (Array.isArray(result.data) ? result.data : [])) {
+        if (game && game.id) candidateMap.set(String(game.id), game);
+      }
+      if (candidateMap.size >= 12) break;
     }
 
-    const search = await searchResponse.json();
-    const candidates = Array.isArray(search.data) ? search.data : [];
+    const candidates = [...candidateMap.values()];
     if (!candidates.length) return res.status(404).json({ error: "Game not found in SteamGridDB." });
 
     const wanted = normalize(name);
@@ -32,18 +44,17 @@ module.exports = async function handler(req, res) {
       const score = game => {
         const title = normalize(game.name);
         if (title === wanted) return 0;
-        if (title.startsWith(wanted)) return 1;
+        if (title.startsWith(wanted) || wanted.startsWith(title)) return 1;
         if (title.includes(wanted) || wanted.includes(title)) return 2;
         return 3;
       };
       return score(a) - score(b);
     });
 
-    // Do not force one exact image resolution: many valid covers use other
-    // supported portrait sizes (for example 342x482 or 660x930).
-    for (const game of candidates.slice(0, 4)) {
+    // Check more candidate matches; some editions have a search result but no artwork.
+    for (const game of candidates.slice(0, 10)) {
       const gridsResponse = await fetch(
-        base + "grids/game/" + encodeURIComponent(game.id) + "?types=static&limit=20",
+        base + "grids/game/" + encodeURIComponent(game.id) + "?types=static&limit=50",
         { headers }
       );
       if (!gridsResponse.ok) continue;
@@ -53,7 +64,14 @@ module.exports = async function handler(req, res) {
       const portrait = artwork.filter(item => {
         const width = Number(item.width || 0);
         const height = Number(item.height || 0);
-        return width > 0 && height > 0 && width / height >= 0.52 && width / height <= 0.88;
+        return item.url && width > 0 && height > 0 && width / height >= 0.50 && width / height <= 0.90;
+      });
+      portrait.sort((a, b) => {
+        const quality = item => {
+          const ratio = Number(item.width) / Number(item.height);
+          return Math.min(Number(item.width) * Number(item.height), 1000000) - Math.abs(ratio - 0.667) * 100000;
+        };
+        return quality(b) - quality(a);
       });
       const chosen = portrait[0] || artwork.find(item => item.url);
       if (chosen && chosen.url) {
@@ -66,7 +84,7 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    return res.status(404).json({ error: "No portrait cover is available for this game." });
+    return res.status(404).json({ error: "No cover artwork is available for this game." });
   } catch (error) {
     return res.status(500).json({ error: "Poster lookup failed." });
   }
