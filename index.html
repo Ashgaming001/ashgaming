@@ -190,6 +190,10 @@ grid.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.
 document.getElementById("orderForm").addEventListener("submit",async e=>{e.preventDefault();const g=window.currentOrderGame;if(!g)return;const message="Hello ASH GAMING! I want to order this game.\\nGame: "+g.name+"\\nPrice: ₹"+(g.price||200)+"\\nPlatform: "+(g.platform||"PS4")+"\\nPlease confirm availability. I will share my delivery details here.";const {error}=await window.ashSupabase.from("orders").insert({game_name:g.name,product_id:g.id||null,price:Number(g.price)||200,platform:g.platform||"PS4",status:"new"});if(error){if(!confirm("The order could not be saved in the admin dashboard ("+error.message+"). Continue to WhatsApp anyway?"))return;}window.location.href="https://wa.me/919682340439?text="+encodeURIComponent(message);});
 
 const verifiedPosterUrls={
+  "Rise of the Tomb Raider": "https://zgames.ae/media/catalog/product/cache/ed0e0b9233706b5b42d1db286ecb0c36/uploads/uploads/rise_of_the_tomb_raider_cover_ps4_pegi.webp",
+  "Watch Dogs 2": "https://cdn.awsli.com.br/2500x2500/1919/1919257/produto/222547048/watch-dogs-2--1--ljgy478ikh.jpg",
+  "The Callisto Protocol": "https://justpressplayonline.com/cdn/shop/files/81tLaYEwsyL._SL1500_e6e86cf5-db7a-46c0-a9b6-1be90cfd9115.jpg?v=1752429463",
+  "The Witcher 3: Wild Hunt": "https://newlevel.com.ar/wp-content/uploads/2021/10/The-Witcher-3-Wild-Hunt.jpg.png",
   "Baldur's Gate 3":"https://cdn.awsli.com.br/600x1000/2549/2549404/produto/232451228/baldurs-gate-3-para-ps5-liongames-9xy6pdbe7x.webp",
   "Batman: Arkham Knight":"https://www.powerupgaming.ca/cdn/shop/products/362090_front.jpg?v=1731898240",
   "Sekiro: Shadows Die Twice":"https://product.hstatic.net/1000154920/product/sekiro_shadows_die_twice_43368695092d4137a650c28334d6ce59.png",
